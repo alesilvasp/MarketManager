@@ -8,3 +8,16 @@ import { StockProduct } from "./stock_product/stock_product.entity";
 import { ProductCategory } from "./product_category/product_category.entity";
 import { OrderDetails } from "./order_details/order_details.entity";
 import { Cashier } from "./cashier/cashier.entity";
+
+export {
+  User,
+  ResetToken,
+  ReturnedProduct,
+  Logs,
+  Product,
+  ProductCategory,
+  OrderDetails,
+  OrderProduct,
+  StockProduct,
+  Cashier,
+};
