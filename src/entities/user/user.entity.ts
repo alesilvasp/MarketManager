@@ -1,27 +1,31 @@
-import { Entity, Column, PrimaryColumn, OneToOne, OneToMany, JoinColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  OneToOne,
+  OneToMany,
+  JoinColumn,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Logs } from "../logs/logs.entity";
-
 
 @Entity()
 export class User {
+  @PrimaryGeneratedColumn("uuid")
+  readonly id!: string;
 
-    @PrimaryColumn('uuid')
-    readonly id!: string; 
+  @Column()
+  name!: string;
 
-    @Column()
-    name!: string;
+  @Column({ unique: true })
+  email!: string;
 
-    @Column({ unique: true})
-    email!: string;
+  @Column()
+  password!: string;
 
-    @Column()
-    password!: string;
+  @Column()
+  isAdm!: boolean;
 
-    @Column()
-    isAdm!: boolean;
-
-    @OneToMany(type => Logs, log => log.user)
-    logs!: Logs[]
-
-    
+  @OneToMany((type) => Logs, (log) => log.user)
+  logs!: Logs[];
 }
