@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ErrorHandler, handleError } from "../../errors/errorHandler";
-import { userCreateService } from "../../services/index";
+import { userCreateService } from "../../services/user/index";
 
 class userCreateController {
   async handle(req: Request, res: Response) {
