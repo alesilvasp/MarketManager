@@ -1,8 +1,8 @@
 import { Router } from "express";
 
-import { userCreateController, userUpdateController } from "../controllers";
-import { validateNewUser } from "../middlewares";
-import userCreateSchema from "../schemas/user.create.schema";
+import { userCreateController, userUpdateController } from "../../controllers/user";
+import { validateNewUser } from "../../middlewares";
+import userCreateSchema from "../../schemas/user.create.schema";
 
 const router = Router();
 const createUserControl = new userCreateController();
@@ -18,3 +18,5 @@ export const usersRouter = () => {
 
   return router;
 };
+
+// separar router admin
