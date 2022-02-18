@@ -9,20 +9,11 @@ import { validateNewUser } from "../../middlewares";
 import userCreateSchema from "../../schemas/user.create.schema";
 
 const router = Router();
-const createUserControl = new userCreateController();
-const updateUserControl = new userUpdateController();
-const deleteUserControl = new userDeleteController();
 
 export const usersRouter = () => {
-  router.post(
-    "",
-    [validateNewUser(userCreateSchema)],
-    createUserControl.handle
-  );
-  router.patch("/:user_id", updateUserControl.handle);
-  router.delete("/:user_id", deleteUserControl.handle);
+  router.post("", [validateNewUser(userCreateSchema)], userCreateController);
+  router.patch("/:user_id", userUpdateController);
+  router.delete("/:user_id", userDeleteController);
 
   return router;
 };
-
-// separar router admin

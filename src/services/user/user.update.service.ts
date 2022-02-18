@@ -1,23 +1,23 @@
-import { UserRepository } from "../../repositories/user.repository";
-import { getCustomRepository } from "typeorm";
+import { getRepository } from "typeorm";
 import { ErrorHandler } from "../../errors/errorHandler";
+import { User } from "../../entities";
 
-class userUpdateService {
-  async execute(user_id: string, data: any) {
-    const userRepository = getCustomRepository(UserRepository);
+export const userUpdateService = async (user_id: string, data: any) => {
+  const userRepository = getRepository(User);
 
-    const userToUpdate = await userRepository.findOne(user_id);
+  const userToUpdate = await userRepository.findOne(user_id);
 
-    if (!userToUpdate) {
-      throw new ErrorHandler(404, "User not found!");
-    }
-
-    if ("isAdm" in data) {
-      throw new ErrorHandler(401, "isAdm field cannot be changed!");
-    }
-
-    return await userRepository.save({ ...userToUpdate, ...data });
+  if (!userToUpdate) {
+    throw new ErrorHandler(404, "User not found!");
   }
-}
 
-export default userUpdateService
+  if ("isAdm" in data || "logs" in data) {
+    throw new ErrorHandler(401, "isAdm and logs fields cannot be changed!");
+  }
+
+  if ("password" in data) {
+    throw new ErrorHandler(401, "To change password, access recover page")
+  }
+
+  return await userRepository.save({ ...userToUpdate, ...data });
+};
