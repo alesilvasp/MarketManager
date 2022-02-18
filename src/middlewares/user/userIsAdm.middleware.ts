@@ -3,14 +3,6 @@ import { ErrorHandler } from "../../errors/errorHandler";
 import jwt from "jsonwebtoken";
 import { config } from "../../config/jwt.config";
 
-declare global {
-  namespace Express {
-    interface Request {
-      adm_id: string;
-    }
-  }
-}
-
 export const userIsAdm = (req: Request, res: Response, next: NextFunction) => {
   try {
     jwt.verify(req.token, config.secret, (err: any, decoded: any) => {

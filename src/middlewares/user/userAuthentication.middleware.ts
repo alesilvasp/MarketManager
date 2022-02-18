@@ -3,14 +3,6 @@ import { ErrorHandler } from "../../errors/errorHandler";
 import jwt from "jsonwebtoken";
 import { config } from "../../config/jwt.config";
 
-declare global {
-  namespace Express {
-    interface Request {
-      token: string;
-    }
-  }
-}
-
 export const userAuthentication = (
   req: Request,
   res: Response,
