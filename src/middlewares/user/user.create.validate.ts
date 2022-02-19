@@ -2,14 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import { IUserCreate } from "../../interfaces/index";
 import { SchemaOf } from "yup";
 
-declare global {
-  namespace Express {
-    interface Request {
-      new_user: IUserCreate;
-    }
-  }
-}
-
 export const validateNewUser =
   (schema: SchemaOf<IUserCreate>) =>
   async (req: Request, res: Response, next: NextFunction) => {
@@ -26,7 +18,6 @@ export const validateNewUser =
 
         next();
       } catch (err: any) {
-        
         return res.status(400).json({
           error: err.errors?.join(", "),
         });
