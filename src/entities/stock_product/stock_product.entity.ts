@@ -1,21 +1,26 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 @Entity()
 export class StockProduct {
+  @PrimaryGeneratedColumn()
+  readonly id!: number;
 
-    @PrimaryGeneratedColumn()
-    readonly id!: number
+  @Column({ unique: true })
+  name!: string;
 
-    @Column({ unique: true })
-    name!: string
+  @Column("float")
+  stock!: number;
 
-    @Column('float')
-    stock!: number
+  @Column()
+  batch!: string;
 
-    @Column()
-    batch!: string
-
-    @CreateDateColumn()
-    expires_in!: string
-
+  @CreateDateColumn()
+  expires_in!: Date;
 }

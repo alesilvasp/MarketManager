@@ -7,7 +7,7 @@ const app = express();
 
 app.use(express.json());
 
-initializerRouter(app)
+initializerRouter(app);
 
 app.use(
   (err: ErrorHandler, req: Request, res: Response, next: NextFunction) => {

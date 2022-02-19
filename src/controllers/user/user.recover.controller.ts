@@ -3,7 +3,7 @@ import { ErrorHandler, handleError } from "../../errors/errorHandler"
 import { userRecoverService } from "../../services/user/user.recover.service"
 
 
-export const userRecover = async (req: Request, res: Response, next: NextFunction) => { 
+export const userRecoverController = async (req: Request, res: Response, next: NextFunction) => { 
 
     try {
         

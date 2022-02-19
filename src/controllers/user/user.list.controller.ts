@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express"
 import { ISafeUser } from "../../interfaces/user/user.safe.interfaces"
 import { userListService } from "../../services/user"
 
-export const userList = async (req: Request, res: Response, next: NextFunction) => { 
+export const userListController = async (req: Request, res: Response, next: NextFunction) => { 
 
     try {
         
