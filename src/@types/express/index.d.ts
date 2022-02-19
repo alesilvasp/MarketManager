@@ -1,4 +1,4 @@
-import { IStockProduct } from "../../interfaces/stock/stock.create.interface";
+import { IStockProduct, IUpdateStockProduct } from "../../interfaces/stock";
 
 declare global {
   namespace Express {
@@ -7,6 +7,7 @@ declare global {
       token: string;
       adm_id: string;
       toStock: IStockProduct;
+      stockUpdate: IUpdateStockProduct;
     }
   }
 }
