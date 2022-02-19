@@ -12,8 +12,8 @@ const devEnv = {
   cli: {
     migrationsDir: "./src/database/migrations",
   },
-  logging: false,
-  synchronize: true,
+  logging: true,
+  synchronize: false,
 };
 
 module.exports = devEnv;

@@ -12,7 +12,7 @@ import { Logs } from "../logs/logs.entity";
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
-  readonly id!: string;
+  id!: string;
 
   @Column()
   name!: string;
