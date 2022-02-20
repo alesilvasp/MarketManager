@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { IStockProduct } from "../../interfaces/stock/stock.create.interface";
+import { IStockProduct } from "../../interfaces/stock";
 import { SchemaOf } from "yup";
 
 export const validateNewStockProduct =

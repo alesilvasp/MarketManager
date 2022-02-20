@@ -1,28 +1,28 @@
 import { Request, Response, NextFunction } from "express";
-import { IUserCreate } from "../../interfaces/index";
+import { IUpdateStockProduct } from "../../interfaces/stock";
 import { SchemaOf } from "yup";
 
-export const validateNewUser =
-  (schema: SchemaOf<IUserCreate>) =>
+export const validateUpdateStockProduct =
+  (schema: SchemaOf<IUpdateStockProduct>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const data = req.body;
+      const data: object = req.body;
 
       try {
-        const validatedData = await schema.validate(data, {
+        const stockData = await schema.validate(data, {
           abortEarly: false,
           stripUnknown: true,
         });
 
-        req.new_user = validatedData;
+        req.stockUpdate = stockData;
 
-        next();
+        return next();
       } catch (err: any) {
         return res.status(400).json({
           error: err.errors?.join(", "),
         });
       }
     } catch (err) {
-      next(err);
+      return next(err);
     }
   };
