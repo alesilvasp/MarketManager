@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Logs } from "../logs/logs.entity";
-import bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 
 @Entity()
 export class User {
