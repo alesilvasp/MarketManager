@@ -1,8 +1,12 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { ErrorHandler, handleError } from "../../errors/errorHandler";
 import { userUpdateService } from "../../services/user";
 
-export const userUpdateController = async (req: Request, res: Response) => {
+export const userUpdateController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { user_id } = req.params;
     const { body } = req;
@@ -11,10 +15,8 @@ export const userUpdateController = async (req: Request, res: Response) => {
 
     const { password, ...safeUser } = userUpdate;
 
-    return res.status(201).json(safeUser);
+    return res.status(200).json(safeUser);
   } catch (error) {
-    if (error instanceof ErrorHandler) {
-      handleError(error, res);
-    }
+    next(error);
   }
 };

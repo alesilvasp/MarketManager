@@ -1,7 +1,5 @@
 import { Router } from "express";
-
 import { userCreateController } from "../../controllers/user";
-import { validateNewUser } from "../../middlewares";
 import { validate } from "../../middlewares/globalMiddlewares/validation.middleware";
 import userCreateSchema from "../../schemas/user.create.schema";
 
