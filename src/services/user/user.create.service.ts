@@ -2,35 +2,25 @@ import { getRepository } from "typeorm";
 import { IUserCreate } from "../../interfaces/user/user.create.interface";
 import { ErrorHandler } from "../../errors/errorHandler";
 import { Logs, User } from "../../entities";
+import AppError from "../../errors/appError";
 
-export const userCreateService = async ({
-  name,
-  email,
-  password,
-  isAdm,
-}: IUserCreate) => {
-  const userRepository = getRepository(User);
+export const userCreateService = async (body: IUserCreate) => {
+  const { email, password, name, isAdm } = body;
+  try {
+    const userRepository = getRepository(User);
 
-  const emailAlreadyExists = await userRepository.findOne({ email });
+    const user = userRepository.create({
+      email,
+      password,
+      name,
+      isAdm,
+    });
 
-  if (emailAlreadyExists) {
-    throw new ErrorHandler(409, "E-mail already registered");
+    await userRepository.save(user);
+
+    const { password: string, ...newUser } = user;
+    return newUser;
+  } catch (error) {
+    throw new AppError("E-mail already registered", 409);
   }
-  // const newUser = new User();
-  // newUser.email = email;
-  // newUser.isAdm = isAdm;
-  // newUser.name = name;
-  // newUser.password = password;
-  // newUser.logs = [];
-  const newUser = userRepository.create({
-    name,
-    email,
-    password,
-    isAdm,
-    logs: [],
-  });
-  console.log(newUser);
-  await userRepository.save(newUser);
-
-  return newUser;
 };

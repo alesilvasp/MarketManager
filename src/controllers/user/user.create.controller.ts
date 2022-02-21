@@ -1,19 +1,17 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { ErrorHandler, handleError } from "../../errors/errorHandler";
 import { userCreateService } from "../../services/user/index";
 
-export const userCreateController = async (req: Request, res: Response) => {
+export const userCreateController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const { new_user } = req;
+    const userCreate = await userCreateService(req.body);
 
-    const userCreate = await userCreateService(new_user);
-
-    const { password, ...safeUser } = userCreate;
-
-    return res.status(201).json(safeUser);
+    return res.status(201).json(userCreate);
   } catch (error) {
-    if (error instanceof ErrorHandler) {
-      handleError(error, res);
-    }
+    next(error);
   }
 };
