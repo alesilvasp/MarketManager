@@ -1,16 +1,14 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm"
-import { Product } from "../product/product.entity"
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Product } from "../product/product.entity";
 
 @Entity()
 export class ProductCategory {
+  @PrimaryGeneratedColumn()
+  readonly id!: number;
 
-    @PrimaryGeneratedColumn()
-    readonly id!: number
+  @Column("text", { unique: true })
+  category!: string;
 
-    @Column()
-    category!: string
-
-    @OneToMany(type => Product, product => product.category)
-    products!: Product[]
-  
+  @OneToMany((type) => Product, (product) => product.category)
+  products!: Product[];
 }
