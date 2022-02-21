@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { productCreateController, productReadController } from "../../controllers/product/index";
+import { productCreateController, productReadController, productReadByIdController } from "../../controllers/product/index";
 
 import {
   userAuthentication,
@@ -16,6 +16,7 @@ const router = Router();
 export const productRouter = () => {
   router.post("", [validate(productCreateSchema)], productCreateController); // adicionar os middlewares apos rota de login
   router.get("", productReadController)
+  router.get("/:product_id", productReadByIdController)
 
   return router;
 };

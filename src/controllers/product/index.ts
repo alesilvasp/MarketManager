@@ -1,4 +1,9 @@
 import { productCreateController } from "./product.create.controller";
 import { productReadController } from "./product.read.controller";
+import { productReadByIdController } from "./product.read_by_id.controller";
 
-export { productCreateController, productReadController };
+export {
+  productCreateController,
+  productReadController,
+  productReadByIdController,
+};
