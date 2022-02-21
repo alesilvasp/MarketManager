@@ -28,9 +28,6 @@ export class Product {
   price!: number;
 
   @Column()
-  for_sale!: number;
-
-  @Column()
   unit!: string;
 
   @OneToOne((type) => SaleProduct, {
