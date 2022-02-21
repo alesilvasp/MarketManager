@@ -1,7 +1,7 @@
 import { ResetToken, User } from "../../entities";
 import { UserRepository } from "../../repositories/user.repository";
-import { ErrorHandler } from "../../errors/errorHandler";
 import { getRepository } from "typeorm";
+import AppError from "../../errors/appError";
 import * as bcrypt from "bcryptjs"
 
 export const userChangePasswordService = async (token: string, new_password: string) => {
@@ -13,7 +13,7 @@ export const userChangePasswordService = async (token: string, new_password: str
 
     if (!token) {
 
-        throw new ErrorHandler(401, "Invalid recovery token")
+        throw new AppError("Invalid recovery token", 401)
     } 
 
     if (userToken) {
@@ -22,7 +22,7 @@ export const userChangePasswordService = async (token: string, new_password: str
 
         if (!isValid) {
 
-            throw new ErrorHandler(401, "Invalid recovery token")
+            throw new AppError("Invalid recovery token", 401)
         }
 
         let userId = userToken.user.id
@@ -41,7 +41,7 @@ export const userChangePasswordService = async (token: string, new_password: str
         
         } else {
 
-            throw new ErrorHandler(404, "User not found")
+            throw new AppError("User not found", 404)
         }
     }
 }

@@ -1,7 +1,7 @@
 import { getRepository } from "typeorm";
 import { User } from "../../entities";
 import { ResetToken } from "../../entities";
-import { ErrorHandler } from "../../errors/errorHandler";
+import AppError from "../../errors/appError";
 import crypto from "crypto"
 import * as bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
@@ -21,7 +21,7 @@ export const userRecoverService = async (userEmail: string) => {
 
     if (!user) {
 
-        throw new ErrorHandler(404, "User not found")
+        throw new AppError("User not found", 404)
     }
 
     const token = await resetTokenRepository.findOne({ where: { user: user }})

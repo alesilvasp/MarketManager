@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express"
-import { ErrorHandler, handleError } from "../../errors/errorHandler"
 import { userRecoverService } from "../../services/user/user.recover.service"
 
 
@@ -7,7 +6,7 @@ export const userRecoverController = async (req: Request, res: Response, next: N
 
     try {
         
-        const { email } = req.recover_data
+        const { email } = req.body
 
         const recover = await userRecoverService(email)
 
@@ -15,8 +14,6 @@ export const userRecoverController = async (req: Request, res: Response, next: N
         
     } catch (error) {
 
-        if (error instanceof ErrorHandler) {
-            handleError(error, res)
-        }
+        next(error)
     }
 }
