@@ -1,23 +1,24 @@
-import { StockProduct } from "../../entities";
+import { Product, StockProduct } from "../../entities";
 import { getRepository } from "typeorm";
 import { IStockProduct } from "../../interfaces/stock/stock.create.interface";
 import AppError from "../../errors/appError";
 
 export const stockCreateService = async (body: IStockProduct) => {
-  const { name, stock, batch, expires_in } = body;
+  const { product_id, stock, batch, expires_in } = body;
   const stockRepository = getRepository(StockProduct);
+  const productRepository = getRepository(Product);
 
-  const inStock = await stockRepository.findOne({ name });
+  const product = await productRepository.findOne({ id: product_id });
 
-  if (inStock) {
-    throw new AppError("Product already registered in stock.", 409);
+  if (!product) {
+    throw new AppError("Product not found.", 400);
   }
 
   const stockProduct = stockRepository.create({
-    name,
     stock,
     batch,
     expires_in: expires_in.split("/").reverse(),
+    product: product,
   });
 
   await stockRepository.save(stockProduct);
