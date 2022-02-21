@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { ErrorHandler } from "../../errors/errorHandler";
 import jwt from "jsonwebtoken";
 import { config } from "../../config/jwt.config";
+import AppError from "../../errors/appError";
 
 export const userAuthorization = (
   req: Request,
@@ -11,15 +11,15 @@ export const userAuthorization = (
   try {
     jwt.verify(req.token, config.secret, (err: any, decoded: any) => {
       if (err) {
-        throw new ErrorHandler(401, "Invalid token.");
+        throw new AppError("Invalid token.", 401);
       }
 
       const { user_id } = req.params;
 
       if (!decoded.isAdm && decoded.id !== user_id) {
-        throw new ErrorHandler(
-          403,
-          "Unauthorized, user is neither an Admin nor the Owner."
+        throw new AppError(
+          "Unauthorized, user is neither an Admin nor the Owner.",
+          403
         );
       }
 

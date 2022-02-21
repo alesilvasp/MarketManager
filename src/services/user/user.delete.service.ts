@@ -1,15 +1,15 @@
 import { getRepository } from "typeorm";
-import { ErrorHandler } from "../../errors/errorHandler";
 import { User } from "../../entities";
+import AppError from "../../errors/appError";
 
 export const userDeleteService = async (user_id: string) => {
-  const userRepository = getRepository(User);
+  try {
+    const userRepository = getRepository(User);
 
-  const userToDelete = await userRepository.findOne(user_id);
+    const userToDelete = await userRepository.findOne(user_id);
 
-  if (!userToDelete) {
-    throw new ErrorHandler(404, "User not found!");
+    await userRepository.remove([userToDelete!]);
+  } catch (error) {
+    throw new AppError("User not found!", 404);
   }
-
-  await userRepository.remove([userToDelete]);
 };

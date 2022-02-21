@@ -1,13 +1,12 @@
 import {
   Entity,
   Column,
-  PrimaryColumn,
-  OneToOne,
   OneToMany,
-  JoinColumn,
+  BeforeInsert,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Logs } from "../logs/logs.entity";
+import bcrypt from "bcrypt";
 
 @Entity()
 export class User {
@@ -28,4 +27,9 @@ export class User {
 
   @OneToMany((type) => Logs, (log) => log.user)
   logs!: Logs[];
+
+  @BeforeInsert()
+  hashPassword() {
+    this.password = bcrypt.hashSync(this.password, 10);
+  }
 }

@@ -3,17 +3,14 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { Product } from "..";
 
 @Entity()
 export class StockProduct {
   @PrimaryGeneratedColumn()
   readonly id!: number;
-
-  @Column({ unique: true })
-  name!: string;
 
   @Column("float")
   stock!: number;
@@ -23,4 +20,7 @@ export class StockProduct {
 
   @CreateDateColumn()
   expires_in!: Date;
+
+  @ManyToOne((type) => Product, (product) => product.stock_product)
+  product!: Product;
 }

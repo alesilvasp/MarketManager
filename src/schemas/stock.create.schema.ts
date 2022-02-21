@@ -3,10 +3,7 @@ import { SchemaOf } from "yup";
 import { IStockProduct } from "../interfaces/stock/stock.create.interface";
 
 export const stockCreateSchema: SchemaOf<IStockProduct> = yup.object().shape({
-  name: yup
-    .string()
-    .required()
-    .transform((name) => name.toLowerCase()),
+  product_id: yup.number().required(),
   stock: yup.number().required().positive(),
   batch: yup.string().required(),
   expires_in: yup
