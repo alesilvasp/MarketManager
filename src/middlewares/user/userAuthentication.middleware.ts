@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { ErrorHandler } from "../../errors/errorHandler";
 import jwt from "jsonwebtoken";
 import { config } from "../../config/jwt.config";
+import AppError from "../../errors/appError";
 
 export const userAuthentication = (
   req: Request,
@@ -12,14 +12,14 @@ export const userAuthentication = (
     const headerAuth = req.headers.authorization;
 
     if (!headerAuth) {
-      throw new ErrorHandler(401, "Missing authorization headers");
+      throw new AppError("Missing authorization headers", 401);
     }
 
     const token = req.headers.authorization?.split(" ")[1] || "";
 
     jwt.verify(token, config.secret, (err: any, decoded: any) => {
       if (err) {
-        throw new ErrorHandler(401, "Invalid token");
+        throw new AppError("Invalid token", 401);
       }
     });
     req.token = token;

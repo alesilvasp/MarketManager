@@ -1,12 +1,12 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class createEntities1645290346442 implements MigrationInterface {
-    name = 'createEntities1645290346442'
+export class createEntities1645434615348 implements MigrationInterface {
+    name = 'createEntities1645434615348'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "logs" ("id" SERIAL NOT NULL, "login" TIMESTAMP NOT NULL DEFAULT now(), "logout" TIMESTAMP, "session_time" TIMESTAMP, "userId" uuid, "cashierId" integer, CONSTRAINT "PK_fb1b805f2f7795de79fa69340ba" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "user" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "email" character varying NOT NULL, "password" character varying NOT NULL, "isAdm" boolean NOT NULL, CONSTRAINT "UQ_e12875dfb3b1d92d7d7c5377e22" UNIQUE ("email"), CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "product_category" ("id" SERIAL NOT NULL, "category" character varying NOT NULL, CONSTRAINT "PK_0dce9bc93c2d2c399982d04bef1" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "product_category" ("id" SERIAL NOT NULL, "category" text NOT NULL, CONSTRAINT "UQ_2002930a8a1654d82f32c67bf82" UNIQUE ("category"), CONSTRAINT "PK_0dce9bc93c2d2c399982d04bef1" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "returned_product" ("id" SERIAL NOT NULL, "quantity" integer NOT NULL, "subtotal" double precision NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "productId" integer, CONSTRAINT "PK_31b514f3fb0d828dc4008c6d616" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "stock_product" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "stock" double precision NOT NULL, "batch" character varying NOT NULL, "expires_in" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "UQ_8a50fab16ec194487e4571d8e03" UNIQUE ("name"), CONSTRAINT "PK_375ba760c8cff338fc8c94b416c" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "product" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "description" character varying NOT NULL, "price" double precision NOT NULL, "for_sale" integer NOT NULL, "unit" character varying NOT NULL, "stockProductId" integer, "categoryId" integer, CONSTRAINT "REL_9d1af047c173c0f8dd3afc60a1" UNIQUE ("stockProductId"), CONSTRAINT "PK_bebc9158e480b949565b4dc7a82" PRIMARY KEY ("id"))`);

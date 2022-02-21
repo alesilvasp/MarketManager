@@ -1,17 +1,16 @@
-import { Request, Response } from "express";
-import { ErrorHandler, handleError } from "../../errors/errorHandler";
+import { NextFunction, Request, Response } from "express";
 import { stockCreateService } from "../../services/stock";
 
-export const stockCreateController = async (req: Request, res: Response) => {
+export const stockCreateController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const { toStock } = req;
-
-    const stockProduct = await stockCreateService(toStock);
+    const stockProduct = await stockCreateService(req.body);
 
     return res.status(201).json(stockProduct);
-  } catch (err) {
-    if (err instanceof ErrorHandler) {
-      handleError(err, res);
-    }
+  } catch (error) {
+    next(error);
   }
 };
