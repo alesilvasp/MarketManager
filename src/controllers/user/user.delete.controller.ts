@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { ErrorHandler, handleError } from "../../errors/errorHandler";
 import { userDeleteService } from "../../services/user";
 
 export const userDeleteController = async (

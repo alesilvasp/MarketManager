@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import express, { Request, Response, NextFunction } from "express";
-import { ErrorHandler, handleError } from "./errors/errorHandler";
+import express from "express";
+
 import { errorHandler } from "./middlewares/globalMiddlewares/error.middleware";
 import { initializerRouter } from "./routes";
 

@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { ErrorHandler, handleError } from "../../errors/errorHandler";
 import { userUpdateService } from "../../services/user";
 
 export const userUpdateController = async (

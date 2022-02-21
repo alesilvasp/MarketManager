@@ -6,7 +6,6 @@ import {
   userDeleteController,
 } from "../../controllers/user";
 import {
-  validateNewUser,
   userAuthentication,
   userIsAdm,
   userAuthorization,
