@@ -28,6 +28,9 @@ export const productCreateService = async (body: IProductCreate) => {
     await productRepository.save(newProduct);
     return newProduct;
   } catch (error) {
-    throw new AppError("Category not found", 404);
+    if ((error as any).code === "23505") {
+      throw new AppError(`Product ${name} already exists`, 409); 
+    }
+    throw new AppError(`Category id ${category_id} not found`, 404);
   }
 };
