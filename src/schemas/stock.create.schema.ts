@@ -4,7 +4,7 @@ import { IStockProduct } from "../interfaces/stock/stock.create.interface";
 
 export const stockCreateSchema: SchemaOf<IStockProduct> = yup.object().shape({
   product_id: yup.number().required(),
-  stock: yup.number().required().positive(),
+  stock: yup.number().required().positive().integer(),
   batch: yup.string().required(),
   expires_in: yup
     .string()
