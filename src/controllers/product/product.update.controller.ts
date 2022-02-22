@@ -12,7 +12,6 @@ export const productUpdateController = async (
 
     const productUpdate = await productUpdateService(Number(product_id), body);
 
-
     return res.status(200).json(productUpdate);
   } catch (error) {
     next(error);

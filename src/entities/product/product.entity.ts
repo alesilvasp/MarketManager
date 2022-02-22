@@ -18,7 +18,7 @@ export class Product {
   @PrimaryGeneratedColumn()
   readonly id!: number;
 
-  @Column()
+  @Column({ unique: true})
   name!: string;
 
   @Column()

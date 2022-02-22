@@ -8,12 +8,16 @@ export const productUpdateService = async (product_id: number, data: any) => {
     const productToUpdate = await productRepository.findOneOrFail(product_id);
 
     await productRepository.save({ ...productToUpdate, ...data });
-    
-    return productToUpdate;
+
+    const productUpdated = await productRepository.findOneOrFail(product_id);
+
+    return productUpdated;
   } catch (error) {
     if ((error as any).code === "23503") {
-      throw new AppError(`Category id ${data?.category} not found`, 404);
+      throw new AppError(`Category id ${data.category} not found`, 404); // category_Id
     }
-    throw new AppError("Product not found!", 404);
+    if ((error as any).message.includes("Product")) {
+      throw new AppError(`Product id ${product_id} not found`, 404);
+    }
   }
 };
