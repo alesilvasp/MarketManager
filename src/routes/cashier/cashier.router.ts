@@ -1,6 +1,11 @@
 import { Router } from "express";
+import { ReturnedProductRepository } from "../../../dist/repositories/returned_product.repository";
 
-import { cashierCreateController } from "../../controllers/cashier";
+import {
+  cashierCreateController,
+  cashierReadByIdController,
+  cashierReadController,
+} from "../../controllers/cashier";
 import { orderProductCreateController } from "../../controllers/orderProduct";
 
 import {
@@ -14,6 +19,8 @@ const router = Router();
 export const cashierRouter = () => {
   router.post("", cashierCreateController);
   router.post("/:cashier_id/product", orderProductCreateController);
+  router.get("", cashierReadController);
+  router.get("/:cashier_id", cashierReadByIdController);
 
   return router;
 };
