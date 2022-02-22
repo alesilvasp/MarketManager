@@ -18,7 +18,7 @@ export class Product {
   @PrimaryGeneratedColumn()
   readonly id!: number;
 
-  @Column()
+  @Column({ unique: true})
   name!: string;
 
   @Column()
@@ -26,9 +26,6 @@ export class Product {
 
   @Column("float")
   price!: number;
-
-  @Column()
-  for_sale!: number;
 
   @Column()
   unit!: string;
