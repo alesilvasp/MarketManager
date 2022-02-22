@@ -14,7 +14,7 @@ import {
   userAuthorization,
 } from "../../middlewares";
 import { validate } from "../../middlewares/globalMiddlewares/validation.middleware";
-import userCreateSchema from "../../schemas/user.create.schema";
+import userCreateSchema from "../../schemas/user/user.create.schema";
 import userRecoverSchema from "../../schemas/user/user.recover.schema"
 import userChangePasswordSchema from "../../schemas/user/user.changepassword.schema"
 

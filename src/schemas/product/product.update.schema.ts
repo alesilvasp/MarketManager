@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { IProductUpdate } from "../interfaces";
+import { IProductUpdate } from "../../interfaces";
 import { SchemaOf } from "yup";
 
 export const productUpdateSchema: SchemaOf<IProductUpdate> = yup
