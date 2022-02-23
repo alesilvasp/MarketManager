@@ -18,22 +18,23 @@ const router = Router();
 export const stockRouter = () => {
   router.post(
     "/receivement",
-    [/*userAuthentication, userIsAdm,*/ validate(stockCreateSchema)],
+    [userAuthentication, userIsAdm, validate(stockCreateSchema)],
     stockCreateController
   );
   router.patch(
     "/receivement/:stock_id",
-    [/*userAuthentication, userIsAdm,*/ validate(stockUpdateSchema)],
+    [userAuthentication, userIsAdm, validate(stockUpdateSchema)],
     stockUpdateController
   );
   router.post(
     "/for_sale",
-    [/*userAuthentication,*/ validate(saleProductTransferSchema)],
+    [userAuthentication, validate(saleProductTransferSchema)],
     saleProductController
   );
   router.get(
     "/for_sale/:product_id",
-    /*[userAuthentication],*/ saleProductSearchController
+    [userAuthentication],
+    saleProductSearchController
   );
 
   return router;
