@@ -8,6 +8,7 @@ import { StockProduct } from "./stock_product/stock_product.entity";
 import { ProductCategory } from "./product_category/product_category.entity";
 import { OrderDetails } from "./order_details/order_details.entity";
 import { Cashier } from "./cashier/cashier.entity";
+import { SaleProduct } from "./sale_product/sale_product.entity";
 
 export {
   User,
@@ -20,4 +21,5 @@ export {
   OrderProduct,
   StockProduct,
   Cashier,
+  SaleProduct,
 };
