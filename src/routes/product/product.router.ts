@@ -14,8 +14,8 @@ import {
 } from "../../middlewares";
 
 import { validate } from "../../middlewares/globalMiddlewares/validation.middleware";
-import { productCreateSchema } from "../../schemas/product.create.schema";
-import { productUpdateSchema } from "../../schemas/product.update.schema";
+import { productCreateSchema } from "../../schemas/product/product.create.schema";
+import { productUpdateSchema } from "../../schemas/product/product.update.schema";
 
 const router = Router();
 
