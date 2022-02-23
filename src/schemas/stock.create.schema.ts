@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import { SchemaOf } from "yup";
-import { IStockProduct } from "../interfaces/stock/stock.create.interface";
+import { IStockProduct } from "../interfaces";
 
 export const stockCreateSchema: SchemaOf<IStockProduct> = yup.object().shape({
   product_id: yup.number().required(),
