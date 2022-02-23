@@ -7,7 +7,15 @@ export const productUpdateService = async (product_id: number, data: any) => {
   try {
     const productToUpdate = await productRepository.findOneOrFail(product_id);
 
-    await productRepository.save({ ...productToUpdate, ...data });
+    const toVerify = Object.entries(data).map((item) =>
+      item.map((values) =>
+        typeof values === "string" ? values.toLowerCase() : values
+      )
+    );
+
+    const verified = Object.fromEntries(toVerify);
+
+    await productRepository.save({ ...productToUpdate, ...verified });
 
     const productUpdated = await productRepository.findOneOrFail(product_id);
 
