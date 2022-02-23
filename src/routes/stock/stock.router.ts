@@ -25,7 +25,7 @@ export const stockRouter = () => {
   );
   router.post(
     "/for_sale",
-    [validate(saleProductTransferSchema)],
+    [userAuthentication, validate(saleProductTransferSchema)],
     saleProductController
   );
 

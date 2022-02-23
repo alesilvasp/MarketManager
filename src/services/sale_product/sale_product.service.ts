@@ -84,7 +84,7 @@ export const saleProductService = async (data: ISaleProductTransfer) => {
       }
     }
 
-    let filtered = info.filter((n) => n.qnt > 0);
+    const filtered = info.filter((n) => n.qnt > 0);
 
     return filtered;
   } catch (err) {
