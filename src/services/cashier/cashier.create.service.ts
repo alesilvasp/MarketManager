@@ -13,7 +13,7 @@ export const cashierCreateService = async (body: any) => {
       balance: balance,
       logs: [],
       order_details: [],
-      order_products: []
+      order_products: [],
     });
 
     await cashierRepository.save(newCashier);
@@ -21,8 +21,7 @@ export const cashierCreateService = async (body: any) => {
     return newCashier;
   } catch (error) {
     if ((error as any).code === "23502") {
-      throw new AppError(`Field balance cannot be empty`, 400); 
+      throw new AppError(`Field balance cannot be empty`, 400);
     }
-    console.log(error)
   }
 };
