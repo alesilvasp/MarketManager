@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import { SchemaOf } from "yup";
-import { IProductCreate } from "../interfaces";
+import { IProductCreate } from "../../interfaces";
 
 export const productCreateSchema: SchemaOf<IProductCreate> = yup
   .object()

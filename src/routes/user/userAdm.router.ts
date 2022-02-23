@@ -5,7 +5,7 @@ import {
  } from "../../controllers/user";
 
 import { validate } from "../../middlewares/globalMiddlewares/validation.middleware";
-import userCreateSchema from "../../schemas/user.create.schema";
+import userCreateSchema from "../../schemas/user/user.create.schema";
 import userAdminLoginSchema from "../../schemas/user/user.adminlogin.schema";
 
 const router = Router();

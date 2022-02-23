@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import * as bcrypt from "bcryptjs";
-import { IUserCreate } from "../interfaces/index";
+import { IUserCreate } from "../../interfaces/index";
 import { SchemaOf } from "yup";
 
 const userCreateSchema: SchemaOf<IUserCreate> = yup.object().shape({
