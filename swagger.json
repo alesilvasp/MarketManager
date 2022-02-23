@@ -1,0 +1,1009 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Market Manager",
+    "description": "Simple API for managing small businesses",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/",
+      "description": "Local Server"
+    },
+    {
+      "url": "https://marketmanager.herokuapp.com/",
+      "description": "Production Server"
+    }
+  ],
+  "paths": {
+    "/admin": {
+      "post": {
+        "tags": ["Admin"],
+        "description": "Create user admin or not based on field 'isAdm'",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {},
+              "examples": {
+                "user": {
+                  "value": {
+                    "name": "John Doe",
+                    "email": "johndoe2@email.com",
+                    "password": "1234",
+                    "isAdmin": true
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created User",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                },
+                "examples": {
+                  "user": {
+                    "value": {
+                      "name": "John Doe",
+                      "email": "johndoe2@email.com",
+                      "isAdmin": true,
+                      "logs": [],
+                      "id": "2c6759ac-78ad-4442-bff1-287aa1e152ad"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/admin/login": {
+      "post": {
+        "tags": ["Admin"],
+        "description": "Login for adm",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "examples": {
+                "user": {
+                  "value": {
+                    "email": "johndoe2@email.com",
+                    "password": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User logged",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "accessToken": {
+                    "value": {
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6ImM4MDM3ZDA3LWIwMTEtNDRjMy04OWIwLTZlNmJhOTBhZDVhZSIsIm5hbWUiOiJBbGV4IiwiZW1haWwiOiJhbGVzaWx2YXNwQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImNyZWF0ZWRBdCI6IjIwMjItMDItMDhUMTc6MDY6NTMuMjU3WiIsInVwZGF0ZWRBdCI6IjIwMjItMDItMDhUMTc6MzM6NTguNTIyWiIsInJlY292ZXJ5VG9rZW4iOiIkMmEkMTAkS0Rtd2xQZ3pVLmIwT1lXVGRwanFmLmlIZXIycUhNTzFaMTR4bWQvdVVEMzVOTWllWTMvanEifSwiaWF0IjoxNjQ0MzQzMTY0LCJleHAiOjE2NDQzNDY3NjR9.cX5C3rSVUpHlOAOzVMpNXElRLN3GA2Pa8AWCkb6JhtM"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": ["Admin"],
+        "description": "Only Adm can create an operator user",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "examples": {
+                "user": {
+                  "value": {
+                    "name": "Another John",
+                    "email": "anotherjohn@email.com",
+                    "password": "1234",
+                    "isAdmin": false
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created User",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                },
+                "examples": {
+                  "user": {
+                    "value": {
+                      "name": "Another Doe",
+                      "email": "anotherjohn@email.com",
+                      "isAdmin": false,
+                      "logs": [],
+                      "id": "2c6759ac-78ad-4442-bff1-287aa1e152ad"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Admin"],
+        "description": "Only adm can read all users signed in database",
+        "responses": {
+          "200": {
+            "description": "A list of users",
+            "content": {
+              "application/json": {
+                "example": {
+                  "users": [
+                    {
+                      "name": "Another John",
+                      "email": "anotherjohn@email.com",
+                      "isAdm": false,
+                      "logs": [],
+                      "id": "11098f61-852a-4ba1-912e-a4d828787d68"
+                    },
+                    {
+                      "name": "user",
+                      "email": "user@email.com",
+                      "isAdm": false,
+                      "logs": [],
+                      "id": "18508h84-852a-4ba1-912e-d6g74476d63"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "patch": {
+        "tags": ["Users"],
+        "description": "Update name and email",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "email": "anotherjohndoe@email.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User response",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "user": {
+                    "value": {
+                      "email": "anotherjohndoe@email.com"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "description": "Only Adm can delete an user",
+        "responses": {
+          "200": {
+            "description": "No body returned for response"
+          },
+          "404": {
+            "description": "User not found!",
+            "content": {
+              "aplication/json": {
+                "example": {
+                  "status": "error",
+                  "statusCode": 404,
+                  "message": "User not found!"
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "style": "simple"
+        }
+      ]
+    },
+    "/login": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Login user on api",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "examples": {
+                "user": {
+                  "value": {
+                    "email": "anotherjohndoe@email.com",
+                    "password": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User logged",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "accessToken": {
+                    "value": {
+                      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6ImM4MDM3ZDA3LWIwMTEtNDRjMy04OWIwLTZlNmJhOTBhZDVhZSIsIm5hbWUiOiJBbGV4IiwiZW1haWwiOiJhbGVzaWx2YXNwQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImNyZWF0ZWRBdCI6IjIwMjItMDItMDhUMTc6MDY6NTMuMjU3WiIsInVwZGF0ZWRBdCI6IjIwMjItMDItMDhUMTc6MzM6NTguNTIyWiIsInJlY292ZXJ5VG9rZW4iOiIkMmEkMTAkS0Rtd2xQZ3pVLmIwT1lXVGRwanFmLmlIZXIycUhNTzFaMTR4bWQvdVVEMzVOTWllWTMvanEifSwiaWF0IjoxNjQ0MzQzMTY0LCJleHAiOjE2NDQzNDY3NjR9.cX5C3rSVUpHlOAOzVMpNXElRLN3GA2Pa8AWCkb6JhtM"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/recover": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Send email with new token to recover password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "user": {
+                  "value": {
+                    "email": "johndoe2@email.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message to confirm email sent",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Ok": {
+                    "value": {
+                      "message": "An e-mail was sent to you with a password recover token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/resetpassword": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Change password using new token recived by email",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "token": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "email": "johndoe2@email.com",
+                    "password": "123456",
+                    "token": "c7e2c3e235dbaeb16794a288969ea217e6c6ab4f"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message to confirm password change",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/statusResponses"
+                },
+                "examples": {
+                  "Ok": {
+                    "value": {
+                      "status": "Ok",
+                      "message": "Password changed!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/product": {
+      "post": {
+        "tags": ["Products"],
+        "description": "Create product by admin",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/product"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "name": "Celular",
+                    "brand": "Samsung",
+                    "description": "Galaxy",
+                    "price": 2500
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Product created",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/product"
+                },
+                "examples": {
+                  "user": {
+                    "value": {
+                      "name": "Celular",
+                      "brand": "Samsung",
+                      "description": "Galaxy",
+                      "price": 2500
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Products"],
+        "description": "Read all products",
+        "responses": {
+          "200": {
+            "description": "A list of products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/product"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/product/{id}": {
+      "get": {
+        "tags": ["Products"],
+        "description": "Return product based on id",
+        "responses": {
+          "200": {
+            "description": "Product response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/product"
+                }
+              }
+            }
+          }
+        },
+        "security": [{}]
+      },
+      "parameters": [
+        {
+          "name": "ProductId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "style": "simple"
+        }
+      ]
+    },
+    "/cart": {
+      "post": {
+        "tags": ["Carts"],
+        "description": "Add product to cart by user",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cart"
+              },
+              "examples": {
+                "cart": {
+                  "value": {
+                    "name": "Celular",
+                    "brand": "Samsung"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Added to cart",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "cart": {
+                    "value": {
+                      "message": "Celular Samsung added to cart"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Carts"],
+        "description": "Only admin can read all carts",
+        "responses": {
+          "200": {
+            "description": "A list of users cart",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cart"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart/{cartId}": {
+      "get": {
+        "tags": ["Carts"],
+        "description": "Return cart based on id",
+        "responses": {
+          "200": {
+            "description": "Cart response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cart"
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "cartId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "style": "simple"
+        }
+      ]
+    },
+    "/cart/{productId}": {
+      "delete": {
+        "tags": ["Carts"],
+        "description": "Delete product from user cart based on productId",
+        "responses": {
+          "200": {
+            "description": "Delete response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/statusResponses"
+                },
+                "examples": {
+                  "Ok": {
+                    "value": {
+                      "status": "Ok",
+                      "message": "Celular was removed from cart"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "productId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "style": "simple"
+        }
+      ]
+    },
+    "/buy": {
+      "post": {
+        "tags": ["Orders"],
+        "description": "Finalize order based on products in user cart",
+        "responses": {
+          "201": {
+            "description": "Finalize order",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/order"
+                },
+                "examples": {
+                  "order": {
+                    "value": {
+                      "user": {
+                        "id": "b6afef4e-50c5-42cd-987c-2ebd8ab56609",
+                        "name": "Alex",
+                        "email": "alesilvasp@gmail.com",
+                        "password": "$2a$10$1fFmc2bCDA6/T9agujgu0Ox8NOaKgRnpSJOhUbhme90SUPa2cTjV2",
+                        "isAdmin": true,
+                        "createdAt": "2022-02-07T20:20:11.496Z",
+                        "updatedAt": "2022-02-07T20:20:11.496Z",
+                        "cart": {
+                          "id": 1,
+                          "updatedAt": "2022-02-07T20:20:11.486Z",
+                          "products": [
+                            {
+                              "id": 1,
+                              "name": "Notebook",
+                              "brand": "Dell",
+                              "description": "Sem descrição",
+                              "price": 3700
+                            },
+                            {
+                              "id": 9,
+                              "name": "Celular",
+                              "brand": "Samsung",
+                              "description": "Sem descrição",
+                              "price": 2500
+                            }
+                          ]
+                        }
+                      },
+                      "products": [
+                        {
+                          "id": 1,
+                          "name": "Notebook",
+                          "brand": "Dell",
+                          "description": "Sem descrição",
+                          "price": 3700
+                        },
+                        {
+                          "id": 9,
+                          "name": "Celular",
+                          "brand": "Samsung",
+                          "description": "Sem descrição",
+                          "price": 2500
+                        }
+                      ],
+                      "id": 9,
+                      "createdAt": "2022-02-07T20:54:27.677Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Orders"],
+        "description": "Only admin can read all orders",
+        "responses": {
+          "200": {
+            "description": "A list of all orders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/orders"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/buy/{orderId}": {
+      "get": {
+        "tags": ["Orders"],
+        "description": "Return order based on id",
+        "responses": {
+          "200": {
+            "description": "Order response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/orders"
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "orderId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "style": "simple"
+        }
+      ]
+    },
+    "/email": {
+      "post": {
+        "tags": ["Email"],
+        "description": "Only admin can send a message to user",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/email"
+              },
+              "examples": {
+                "message": {
+                  "value": {
+                    "email": "alesilvasp@gmail.com",
+                    "subject": "Email Teste",
+                    "message": "Esse é um email teste de rota"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Response from message",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/statusResponses"
+                },
+                "examples": {
+                  "order": {
+                    "value": {
+                      "status": "Ok",
+                      "message": "Email successfully sent"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "user": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Generated wih UUID",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "isAdmin": {
+            "type": "boolean"
+          },
+          "logs": {
+            "type": "array"
+          }
+        }
+      },
+      "statusResponses": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "number"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "brand": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          }
+        }
+      },
+      "cart": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "brand": {
+            "type": "string"
+          }
+        }
+      },
+      "order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "readOnly": true
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Generated wih UUID",
+                "readOnly": true
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "password": {
+                "type": "string",
+                "writeOnly": true
+              },
+              "isAdmin": {
+                "type": "boolean"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "readOnly": true
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "readOnly": true
+              },
+              "cart": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "readOnly": true
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "readOnly": true
+                  },
+                  "products": {
+                    "type": "array"
+                  }
+                }
+              }
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "readOnly": true
+          },
+          "products": {
+            "type": "array"
+          }
+        }
+      },
+      "orders": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "readOnly": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "readOnly": true
+                },
+                "name": {
+                  "type": "string"
+                },
+                "brand": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "email": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "JWT": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "JWT": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Admin",
+      "description": "Operations about admin"
+    },
+    {
+      "name": "Users",
+      "description": "Operations about user"
+    },
+    {
+      "name": "Products",
+      "description": "Operations about product"
+    },
+    {
+      "name": "Carts",
+      "description": "Operations about cart"
+    },
+    {
+      "name": "Orders",
+      "description": "Operations about order"
+    },
+    {
+      "name": "Email",
+      "description": "Send email to user"
+    }
+  ]
+}
