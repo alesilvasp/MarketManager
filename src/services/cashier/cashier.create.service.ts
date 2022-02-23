@@ -17,6 +17,7 @@ export const cashierCreateService = async (body: any) => {
     });
 
     await cashierRepository.save(newCashier);
+
     return newCashier;
   } catch (error) {
     if ((error as any).code === "23502") {

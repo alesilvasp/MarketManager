@@ -6,7 +6,7 @@ export const cashierReadByIdService = async (cashier_id: number) => {
   const cashierRepository = getRepository(Cashier);
   try {
     const cashier = await cashierRepository.findOneOrFail(cashier_id, {
-      relations: ["order_products", "order_details", "logs"],
+      relations: ["order_products"],
     });
 
     return cashier;

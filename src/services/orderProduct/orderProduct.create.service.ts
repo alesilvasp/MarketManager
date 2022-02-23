@@ -14,15 +14,18 @@ export const orderProductCreateService = async (body: IOrderProductCreate, cashi
     const cashier = await cashierRepository.findOneOrFail(cashier_id)
     const product = await productRepository.findOneOrFail(product_id)
 
-    const newOrderProduct = await orderProductRepository.create({
+    const newOrderProduct = orderProductRepository.create({
       product: product,
       quantity: quantity,
       cashier: cashier,
-      // Order Detail??
       subtotal: product.price * quantity
     })
     
     // remover a quantidade da entidade for_sale
+    
+    cashier.subtotal += newOrderProduct.subtotal
+
+    await cashierRepository.save(cashier)
 
     await orderProductRepository.save(newOrderProduct);
     return newOrderProduct;
