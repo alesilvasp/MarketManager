@@ -4,24 +4,28 @@ import { IStockProduct } from "../../interfaces/stock/stock.create.interface";
 import AppError from "../../errors/appError";
 
 export const stockCreateService = async (body: IStockProduct) => {
-  const { product_id, stock, batch, expires_in } = body;
-  const stockRepository = getRepository(StockProduct);
-  const productRepository = getRepository(Product);
+  try {
+    const { product_id, stock, batch, expires_in } = body;
+    const stockRepository = getRepository(StockProduct);
+    const productRepository = getRepository(Product);
 
-  const product = await productRepository.findOne({ id: product_id });
+    const product = await productRepository.findOne({ id: product_id });
 
-  if (!product) {
-    throw new AppError("Product not found.", 400);
+    if (!product) {
+      throw new AppError("Product not found.", 400);
+    }
+
+    const stockProduct = stockRepository.create({
+      stock,
+      batch,
+      expires_in: expires_in.split("/").reverse(),
+      product: product,
+    });
+
+    await stockRepository.save(stockProduct);
+
+    return stockProduct;
+  } catch (err) {
+    throw new AppError((err as any).message, (err as any).statusCode);
   }
-
-  const stockProduct = stockRepository.create({
-    stock,
-    batch,
-    expires_in: expires_in.split("/").reverse(),
-    product: product,
-  });
-
-  await stockRepository.save(stockProduct);
-
-  return stockProduct;
 };
