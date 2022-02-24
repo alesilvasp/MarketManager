@@ -71,6 +71,7 @@
         "requestBody": {
           "content": {
             "aplication/json": {
+              "schema": {},
               "examples": {
                 "user": {
                   "value": {
@@ -108,6 +109,7 @@
         "requestBody": {
           "content": {
             "aplication/json": {
+              "schema": {},
               "examples": {
                 "user": {
                   "value": {
@@ -260,6 +262,7 @@
         "requestBody": {
           "content": {
             "aplication/json": {
+              "schema": {},
               "examples": {
                 "user": {
                   "value": {
@@ -297,6 +300,7 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "schema": {},
               "examples": {
                 "user": {
                   "value": {
@@ -382,10 +386,158 @@
         "security": [{}]
       }
     },
+    "/category": {
+      "post": {
+        "tags": ["Category"],
+        "description": "Only Admin is allowed to create a new category",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {},
+              "example": {
+                "category": "Refrigerante"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Category created",
+            "content": {
+              "aplication/json": {
+                "schema": {},
+                "example": {
+                  "category": "Refri bacana",
+                  "products": [],
+                  "id": 1
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Category already exists",
+            "content": {
+              "aplication/json": {
+                "schema": {},
+                "example": {
+                  "message": "Category already registered."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stock/receivement": {
+      "post": {
+        "tags": ["Stock"],
+        "description": "Admin can enter a stock quantity of a product",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {},
+              "example": {
+                "product_id": 2,
+                "stock": 100,
+                "batch": "98765016084651",
+                "expires_in": "21/09/2022"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Stock added",
+            "content": {
+              "aplication/json": {
+                "schema": {},
+                "example": {
+                  "stock": 100,
+                  "batch": "98765016084651",
+                  "expires_in": "2022-09-21T02:00:00.000Z",
+                  "product": {
+                    "id": 2,
+                    "name": "coca-cola 2l",
+                    "description": "zero",
+                    "price": 7,
+                    "unit": "unidade",
+                    "sale_product": null,
+                    "stock_product": [],
+                    "category": {
+                      "id": 2,
+                      "category": "Refrigerante"
+                    }
+                  },
+                  "id": 4
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad Request",
+            "content": {
+              "aplication/json": {
+                "example": {
+                  "message": "Product not found."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stock/for_sale": {
+      "post": {
+        "tags": ["For Sale"],
+        "description": "Only Admin can move from stock to shelves",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {},
+              "example": {
+                "name": "coca-cola 2l",
+                "quantity": 50
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Stock moved",
+            "content": {
+              "aplication/json": {
+                "example": {
+                  "message": "For each batch will be tranfered the current quantity:",
+                  "info": [
+                    {
+                      "qnt": 50,
+                      "batch": "98765016084651"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "aplication/json": {
+                "example": {
+                  "message": "Product not found."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/product": {
       "post": {
         "tags": ["Products"],
-        "description": "Create product by admin",
+        "description": "Only Admin is allowed to create a product",
         "requestBody": {
           "content": {
             "aplication/json": {
@@ -395,10 +547,11 @@
               "examples": {
                 "user": {
                   "value": {
-                    "name": "Celular",
-                    "brand": "Samsung",
-                    "description": "Galaxy",
-                    "price": 2500
+                    "name": "Coca-Cola 2l",
+                    "description": "Zero",
+                    "price": 7,
+                    "unit": "unidade",
+                    "category_id": 1
                   }
                 }
               }
@@ -417,10 +570,18 @@
                 "examples": {
                   "user": {
                     "value": {
-                      "name": "Celular",
-                      "brand": "Samsung",
-                      "description": "Galaxy",
-                      "price": 2500
+                      "name": "coca-cola 2l",
+                      "description": "zero",
+                      "price": 7,
+                      "unit": "unidade",
+                      "returned": [],
+                      "stock_product": [],
+                      "order_products": [],
+                      "category": {
+                        "id": 1,
+                        "category": "Refrigerante"
+                      },
+                      "id": 1
                     }
                   }
                 }
@@ -827,7 +988,7 @@
           "name": {
             "type": "string"
           },
-          "brand": {
+          "unit": {
             "type": "string"
           },
           "description": {
@@ -835,6 +996,34 @@
           },
           "price": {
             "type": "number"
+          },
+          "category_id": {
+            "type": "number"
+          },
+          "returned": {
+            "type": "array",
+            "readOnly": true
+          },
+          "stock_product": {
+            "type": "array",
+            "readOnly": true
+          },
+          "order_products": {
+            "type": "array",
+            "readOnly": true
+          },
+          "category": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "readOnly": true
+              },
+              "category": {
+                "type": "string",
+                "readOnly": true
+              }
+            }
           }
         }
       },
@@ -988,6 +1177,18 @@
     {
       "name": "Users",
       "description": "Operations about user"
+    },
+    {
+      "name": "Category",
+      "description": "Admin allowed to create a new category"
+    },
+    {
+      "name": "Stock",
+      "description": "Operations to control stock of products"
+    },
+    {
+      "name": "For Sale",
+      "description": "Operation to transfer from stock to shelves"
     },
     {
       "name": "Products",
