@@ -6,7 +6,6 @@ export const userUpdateService = async (user_id: string, data: any) => {
   const userRepository = getRepository(User);
   try {
     const userToUpdate = await userRepository.findOne(user_id);
-    console.log(userToUpdate);
 
     if ("isAdm" in data || "logs" in data) {
       throw new AppError("isAdm and logs fields cannot be changed!", 401);

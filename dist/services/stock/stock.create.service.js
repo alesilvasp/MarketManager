@@ -17,20 +17,25 @@ const entities_1 = require("../../entities");
 const typeorm_1 = require("typeorm");
 const appError_1 = __importDefault(require("../../errors/appError"));
 const stockCreateService = (body) => __awaiter(void 0, void 0, void 0, function* () {
-    const { product_id, stock, batch, expires_in } = body;
-    const stockRepository = (0, typeorm_1.getRepository)(entities_1.StockProduct);
-    const productRepository = (0, typeorm_1.getRepository)(entities_1.Product);
-    const product = yield productRepository.findOne({ id: product_id });
-    if (!product) {
-        throw new appError_1.default("Product not found.", 400);
+    try {
+        const { product_id, stock, batch, expires_in } = body;
+        const stockRepository = (0, typeorm_1.getRepository)(entities_1.StockProduct);
+        const productRepository = (0, typeorm_1.getRepository)(entities_1.Product);
+        const product = yield productRepository.findOne({ id: product_id });
+        if (!product) {
+            throw new appError_1.default("Product not found.", 400);
+        }
+        const stockProduct = stockRepository.create({
+            stock,
+            batch,
+            expires_in: expires_in.split("/").reverse(),
+            product: product,
+        });
+        yield stockRepository.save(stockProduct);
+        return stockProduct;
     }
-    const stockProduct = stockRepository.create({
-        stock,
-        batch,
-        expires_in: expires_in.split("/").reverse(),
-        product: product,
-    });
-    yield stockRepository.save(stockProduct);
-    return stockProduct;
+    catch (err) {
+        throw new appError_1.default(err.message, err.statusCode);
+    }
 });
 exports.stockCreateService = stockCreateService;

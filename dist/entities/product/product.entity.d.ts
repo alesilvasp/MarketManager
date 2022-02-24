@@ -8,11 +8,11 @@ export declare class Product {
     name: string;
     description: string;
     price: number;
-    for_sale: number;
     unit: string;
     sale_product: SaleProduct;
     returned: ReturnedProduct[];
     stock_product: StockProduct[];
     order_products: OrderProduct[];
     category: ProductCategory;
+    toLower(): void;
 }

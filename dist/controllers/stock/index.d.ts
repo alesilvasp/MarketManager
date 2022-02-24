@@ -1,2 +1,3 @@
 import { stockCreateController } from "./stock.create.controller";
-export { stockCreateController };
+import { stockUpdateController } from "./stock.update.controller";
+export { stockCreateController, stockUpdateController };

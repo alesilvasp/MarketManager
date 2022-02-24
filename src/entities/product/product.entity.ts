@@ -6,6 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   JoinColumn,
+  BeforeInsert,
 } from "typeorm";
 import { OrderProduct } from "../order_product/order_product.entity";
 import { ProductCategory } from "../product_category/product_category.entity";
@@ -18,7 +19,7 @@ export class Product {
   @PrimaryGeneratedColumn()
   readonly id!: number;
 
-  @Column()
+  @Column({ unique: true })
   name!: string;
 
   @Column()
@@ -26,9 +27,6 @@ export class Product {
 
   @Column("float")
   price!: number;
-
-  @Column()
-  for_sale!: number;
 
   @Column()
   unit!: string;
@@ -55,4 +53,11 @@ export class Product {
     eager: true,
   })
   category!: ProductCategory;
+
+  @BeforeInsert()
+  toLower() {
+    this.name = this.name.toLowerCase();
+    this.description = this.description.toLowerCase();
+    this.unit = this.unit.toLowerCase();
+  }
 }

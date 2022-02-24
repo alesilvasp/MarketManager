@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.productUpdateService = exports.productReadByIdService = exports.productReadService = exports.productCreateService = void 0;
+const product_create_service_1 = require("./product.create.service");
+Object.defineProperty(exports, "productCreateService", { enumerable: true, get: function () { return product_create_service_1.productCreateService; } });
+const product_read_service_1 = require("./product.read.service");
+Object.defineProperty(exports, "productReadService", { enumerable: true, get: function () { return product_read_service_1.productReadService; } });
+const product_read_by_id_service_1 = require("./product.read_by_id.service");
+Object.defineProperty(exports, "productReadByIdService", { enumerable: true, get: function () { return product_read_by_id_service_1.productReadByIdService; } });
+const product_update_service_1 = require("./product.update.service");
+Object.defineProperty(exports, "productUpdateService", { enumerable: true, get: function () { return product_update_service_1.productUpdateService; } });
