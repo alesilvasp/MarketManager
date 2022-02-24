@@ -3,4 +3,5 @@ export declare class ProductCategory {
     readonly id: number;
     category: string;
     products: Product[];
+    toLower(): void;
 }

@@ -1,3 +1,3 @@
 import { SchemaOf } from "yup";
-import { IStockProduct } from "../interfaces/stock/stock.create.interface";
+import { IStockProduct } from "../interfaces";
 export declare const stockCreateSchema: SchemaOf<IStockProduct>;

@@ -16,7 +16,7 @@ export const saleProductController = async (
 
     const forSaleProduct = await saleProductService(body);
 
-    return res.status(201).json({
+    return res.status(200).json({
       message: "For each batch will be tranfered the current quantity:",
       info: forSaleProduct,
     });

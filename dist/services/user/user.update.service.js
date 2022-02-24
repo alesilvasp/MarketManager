@@ -20,7 +20,6 @@ const userUpdateService = (user_id, data) => __awaiter(void 0, void 0, void 0, f
     const userRepository = (0, typeorm_1.getRepository)(entities_1.User);
     try {
         const userToUpdate = yield userRepository.findOne(user_id);
-        console.log(userToUpdate);
         if ("isAdm" in data || "logs" in data) {
             throw new appError_1.default("isAdm and logs fields cannot be changed!", 401);
         }

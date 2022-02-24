@@ -13,6 +13,9 @@ exports.ProductCategory = void 0;
 const typeorm_1 = require("typeorm");
 const product_entity_1 = require("../product/product.entity");
 let ProductCategory = class ProductCategory {
+    toLower() {
+        this.category = this.category.toLowerCase();
+    }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
@@ -26,6 +29,12 @@ __decorate([
     (0, typeorm_1.OneToMany)((type) => product_entity_1.Product, (product) => product.category),
     __metadata("design:type", Array)
 ], ProductCategory.prototype, "products", void 0);
+__decorate([
+    (0, typeorm_1.BeforeInsert)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ProductCategory.prototype, "toLower", null);
 ProductCategory = __decorate([
     (0, typeorm_1.Entity)()
 ], ProductCategory);
