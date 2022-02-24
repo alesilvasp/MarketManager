@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Cashier = exports.StockProduct = exports.OrderProduct = exports.OrderDetails = exports.ProductCategory = exports.Product = exports.Logs = exports.ReturnedProduct = exports.ResetToken = exports.User = void 0;
+exports.SaleProduct = exports.Cashier = exports.StockProduct = exports.OrderProduct = exports.OrderDetails = exports.ProductCategory = exports.Product = exports.Logs = exports.ReturnedProduct = exports.ResetToken = exports.User = void 0;
 const user_entity_1 = require("./user/user.entity");
 Object.defineProperty(exports, "User", { enumerable: true, get: function () { return user_entity_1.User; } });
 const reset_token_entity_1 = require("./reset_token/reset_token.entity");
@@ -21,3 +21,5 @@ const order_details_entity_1 = require("./order_details/order_details.entity");
 Object.defineProperty(exports, "OrderDetails", { enumerable: true, get: function () { return order_details_entity_1.OrderDetails; } });
 const cashier_entity_1 = require("./cashier/cashier.entity");
 Object.defineProperty(exports, "Cashier", { enumerable: true, get: function () { return cashier_entity_1.Cashier; } });
+const sale_product_entity_1 = require("./sale_product/sale_product.entity");
+Object.defineProperty(exports, "SaleProduct", { enumerable: true, get: function () { return sale_product_entity_1.SaleProduct; } });

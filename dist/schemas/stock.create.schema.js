@@ -23,7 +23,7 @@ exports.stockCreateSchema = void 0;
 const yup = __importStar(require("yup"));
 exports.stockCreateSchema = yup.object().shape({
     product_id: yup.number().required(),
-    stock: yup.number().required().positive(),
+    stock: yup.number().required().positive().integer(),
     batch: yup.string().required(),
     expires_in: yup
         .string()

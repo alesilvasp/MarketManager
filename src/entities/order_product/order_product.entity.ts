@@ -28,4 +28,6 @@ export class OrderProduct {
 
     @ManyToOne(type => OrderDetails, order_details => order_details.order_products)
     order!: OrderDetails
+
+    
 }
