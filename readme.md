@@ -18,7 +18,7 @@ Após a instalação rode o seguinte comando:
 
 O sistema estará rodando em https://marketmanager.herokuapp.com/
 
-Caso queira fazer os testes localmente, após o comando `yarn install` rode no terminal:
+Caso queira fazer os testes localmente, após o comando `yarn install`, tenha o <a href="https://docs.docker.com/get-started/">Docker</a> configurado e rode no terminal:
 
 `docker-compose up`
 
