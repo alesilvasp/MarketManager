@@ -5,5 +5,6 @@ import { userListController } from "./user.list.controller";
 import { userChangePasswordController } from "./user.changepassword.controller";
 import { userRecoverController } from "./user.recover.controller";
 import { userAdminLoginController } from "./user.adminlogin.controller";
+import { userLoginController } from "./user.login.controller";
 
-export { userCreateController, userUpdateController, userDeleteController, userListController, userRecoverController, userChangePasswordController, userAdminLoginController };
+export { userCreateController, userUpdateController, userDeleteController, userListController, userRecoverController, userChangePasswordController, userAdminLoginController, userLoginController };
