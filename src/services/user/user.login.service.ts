@@ -16,6 +16,7 @@ export const userLoginService = async (body: IUserLogin) => {
 
     const user = await userRepository.findOne({ email: email })
     const cashier = await cashierRepository.findOne({ id: cashier_id })
+    const cashiers = await cashierRepository.find()
 
     if (!user) {
 
@@ -28,6 +29,13 @@ export const userLoginService = async (body: IUserLogin) => {
     }
     
     const pwdMatch = await bcrypt.compare(password, user.password)
+
+    const userIsLogged = cashiers.filter(item => item.user === user)
+
+    if (!!userIsLogged) {
+
+        throw new AppError("This user is already logged in in another cashier", 401)
+    }
 
     if (!cashier.user && pwdMatch && !user.isAdm) {
 
@@ -65,7 +73,7 @@ export const userLoginService = async (body: IUserLogin) => {
 
     } else if (cashier.user) {
 
-        throw new AppError("Cashier is in use", 401)
+        throw new AppError("Cashier is already been used", 401)
 
     } else if (!pwdMatch) {
 

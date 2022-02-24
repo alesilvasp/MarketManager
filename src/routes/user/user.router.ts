@@ -6,7 +6,8 @@ import {
   userDeleteController,
   userRecoverController,
   userListController,
-  userChangePasswordController
+  userChangePasswordController,
+  userLoginController,
 } from "../../controllers/user";
 import {
   userAuthentication,
@@ -17,7 +18,7 @@ import { validate } from "../../middlewares/globalMiddlewares/validation.middlew
 import userCreateSchema from "../../schemas/user/user.create.schema";
 import userRecoverSchema from "../../schemas/user/user.recover.schema"
 import userChangePasswordSchema from "../../schemas/user/user.changepassword.schema"
-
+import userLoginSchema from "../../schemas/user/user.login.schema";
 
 const router = Router();
 
@@ -52,6 +53,11 @@ export const usersRouter = () => {
     "/changepassword",
     [validate(userChangePasswordSchema)],
     userChangePasswordController
+  );
+  router.post(
+    "/login",
+    [validate(userLoginSchema)],
+    userLoginController
   )
 
   return router;
