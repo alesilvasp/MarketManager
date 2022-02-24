@@ -48,3 +48,4 @@ Acesse a documentação completa das rotas nesse <a href="https://marketmanager.
 - TypeORM
 - Swagger
 - Jest
+- Nodemailer
