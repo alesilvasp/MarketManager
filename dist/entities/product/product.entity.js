@@ -17,13 +17,18 @@ const returned_product_entity_1 = require("../returned_product/returned_product.
 const stock_product_entity_1 = require("../stock_product/stock_product.entity");
 const sale_product_entity_1 = require("../sale_product/sale_product.entity");
 let Product = class Product {
+    toLower() {
+        this.name = this.name.toLowerCase();
+        this.description = this.description.toLowerCase();
+        this.unit = this.unit.toLowerCase();
+    }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
 ], Product.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ unique: true }),
     __metadata("design:type", String)
 ], Product.prototype, "name", void 0);
 __decorate([
@@ -34,10 +39,6 @@ __decorate([
     (0, typeorm_1.Column)("float"),
     __metadata("design:type", Number)
 ], Product.prototype, "price", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], Product.prototype, "for_sale", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
@@ -70,6 +71,12 @@ __decorate([
     }),
     __metadata("design:type", product_category_entity_1.ProductCategory)
 ], Product.prototype, "category", void 0);
+__decorate([
+    (0, typeorm_1.BeforeInsert)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], Product.prototype, "toLower", null);
 Product = __decorate([
     (0, typeorm_1.Entity)()
 ], Product);

@@ -20,11 +20,7 @@ __decorate([
     __metadata("design:type", Number)
 ], OrderDetails.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], OrderDetails.prototype, "quantity", void 0);
-__decorate([
-    (0, typeorm_1.Column)('float'),
+    (0, typeorm_1.Column)("float"),
     __metadata("design:type", Number)
 ], OrderDetails.prototype, "total", void 0);
 __decorate([
@@ -32,13 +28,13 @@ __decorate([
     __metadata("design:type", String)
 ], OrderDetails.prototype, "created_at", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(type => order_product_entity_1.OrderProduct, order_product => order_product.order, {
-        eager: true
+    (0, typeorm_1.OneToMany)((type) => order_product_entity_1.OrderProduct, (order_product) => order_product.order, {
+        eager: true,
     }),
     __metadata("design:type", Array)
 ], OrderDetails.prototype, "order_products", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(type => cashier_entity_1.Cashier, cashier => cashier.order_details),
+    (0, typeorm_1.ManyToOne)((type) => cashier_entity_1.Cashier, (cashier) => cashier.order_details),
     __metadata("design:type", cashier_entity_1.Cashier)
 ], OrderDetails.prototype, "cashier", void 0);
 OrderDetails = __decorate([

@@ -1,2 +1,3 @@
 import { stockCreateService } from "./stock.create.service";
-export { stockCreateService };
+import { stockUpdateService } from "./stock.update.service";
+export { stockCreateService, stockUpdateService };

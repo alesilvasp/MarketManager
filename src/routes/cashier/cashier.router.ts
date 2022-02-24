@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { ReturnedProductRepository } from "../../../dist/repositories/returned_product.repository";
 
 import {
   cashierCreateController,
