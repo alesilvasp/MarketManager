@@ -1,4 +1,10 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Product } from "../product/product.entity";
 
 @Entity()
@@ -11,4 +17,9 @@ export class ProductCategory {
 
   @OneToMany((type) => Product, (product) => product.category)
   products!: Product[];
+
+  @BeforeInsert()
+  toLower() {
+    this.category = this.category.toLowerCase();
+  }
 }
