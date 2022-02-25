@@ -10,6 +10,7 @@ import {
   ISaleProductTransfer,
   InfoQnt,
 } from "./sale_product/sale_product.transfer.interface";
+import { IOrderProductDelete } from "./order_product/orderProduct.delete.interface";
 
 export {
   IUserCreate,
@@ -22,4 +23,5 @@ export {
   IUpdateStockProduct,
   ISaleProductTransfer,
   InfoQnt,
+  IOrderProductDelete,
 };

@@ -5,7 +5,10 @@ import {
   cashierReadByIdController,
   cashierReadController,
 } from "../../controllers/cashier";
-import { orderProductCreateController } from "../../controllers/orderProduct";
+import {
+  orderProductCreateController,
+  orderProductDeleteController,
+} from "../../controllers/orderProduct";
 import {
   orderDetailsCreateController,
   orderDetailsreadByIdController,
@@ -16,6 +19,8 @@ import {
   userIsAdm,
   userAuthorization,
 } from "../../middlewares";
+import { validate } from "../../middlewares/globalMiddlewares/validation.middleware";
+import { orderProductDeleteSchema } from "../../schemas/order_product/orderProduct.delete.schema";
 
 const router = Router();
 
@@ -51,6 +56,13 @@ export const cashierRouter = () => {
     userAuthentication,
     userAuthorization,
     orderDetailsreadByIdController
+  );
+  router.delete(
+    "/:cashier_id/product/:product_id",
+    userAuthentication,
+    userAuthorization,
+    validate(orderProductDeleteSchema),
+    orderProductDeleteController
   );
 
   return router;
