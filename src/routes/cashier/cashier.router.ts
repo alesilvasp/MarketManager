@@ -60,7 +60,7 @@ export const cashierRouter = () => {
   router.delete(
     "/:cashier_id/product/:product_id",
     userAuthentication,
-    userAuthorization,
+    userIsAdm,
     validate(orderProductDeleteSchema),
     orderProductDeleteController
   );

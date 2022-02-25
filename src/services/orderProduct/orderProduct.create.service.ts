@@ -31,6 +31,10 @@ export const orderProductCreateService = async (
     sale_product.stock -= quantity;
     cashier.subtotal += newOrderProduct.subtotal;
 
+    if (sale_product.stock < 0) {
+      throw new AppError("Quantity beyond items for sale.", 400);
+    }
+
     await saleProductRepository.save(sale_product);
     await cashierRepository.save(cashier);
 
@@ -43,13 +47,15 @@ export const orderProductCreateService = async (
       { relations: ["cashier"] }
     );
 
-    return orderProductDetails;
+    const { stock_product, ...restInfo } = orderProductDetails.product;
+
+    return { ...orderProductDetails, product: restInfo };
   } catch (error) {
     if ((error as any).message.includes("Cashier")) {
       throw new AppError(`Cashier id ${cashier_id} do not exists`, 404);
     }
     if ((error as any).message.includes("Product")) {
-      throw new AppError(`Product id ${product_id} do not exists`, 404);
+      throw new AppError(`Product id ${product_id} is not for sale`, 404);
     }
   }
 };

@@ -20,7 +20,11 @@ export const orderProductDeleteService = async (
     const cashierRepository = getRepository(Cashier);
     const productRepository = getRepository(Product);
 
-    const product = await productRepository.findOneOrFail(product_id);
+    const product = await productRepository.findOne(product_id);
+
+    if (!product) {
+      throw new AppError("Product not found", 404);
+    }
 
     const orderProduct = await orderProductRepository.find({
       product: { id: product_id },
@@ -40,7 +44,6 @@ export const orderProductDeleteService = async (
     let unitPrice = Number(
       (orderProduct[0].subtotal / orderProduct[0].quantity).toFixed(2)
     );
-    console.log(unitPrice);
 
     let totalPrice = Number((unitPrice * quantity).toFixed(2));
 
