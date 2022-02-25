@@ -1,0 +1,20 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.stockRouter = void 0;
+const express_1 = require("express");
+const stock_1 = require("../../controllers/stock");
+const stock_create_schema_1 = require("../../schemas/stock.create.schema");
+const stock_update_schema_1 = require("../../schemas/stock.update.schema");
+const validation_middleware_1 = require("../../middlewares/globalMiddlewares/validation.middleware");
+const middlewares_1 = require("../../middlewares");
+const sale_products_1 = require("../../controllers/sale_products");
+const sale_product_schema_1 = require("../../schemas/sale_product.schema");
+const router = (0, express_1.Router)();
+const stockRouter = () => {
+    router.post("/receivement", [middlewares_1.userAuthentication, middlewares_1.userIsAdm, (0, validation_middleware_1.validate)(stock_create_schema_1.stockCreateSchema)], stock_1.stockCreateController);
+    router.patch("/receivement/:stock_id", [middlewares_1.userAuthentication, middlewares_1.userIsAdm, (0, validation_middleware_1.validate)(stock_update_schema_1.stockUpdateSchema)], stock_1.stockUpdateController);
+    router.post("/for_sale", [middlewares_1.userAuthentication, (0, validation_middleware_1.validate)(sale_product_schema_1.saleProductTransferSchema)], sale_products_1.saleProductController);
+    router.get("/for_sale/:product_id", [middlewares_1.userAuthentication], sale_products_1.saleProductSearchController);
+    return router;
+};
+exports.stockRouter = stockRouter;

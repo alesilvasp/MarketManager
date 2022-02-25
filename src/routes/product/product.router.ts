@@ -7,11 +7,7 @@ import {
   productUpdateController,
 } from "../../controllers/product/index";
 
-import {
-  userAuthentication,
-  userIsAdm,
-  userAuthorization,
-} from "../../middlewares";
+import { userAuthentication, userIsAdm } from "../../middlewares";
 
 import { validate } from "../../middlewares/globalMiddlewares/validation.middleware";
 import { productCreateSchema } from "../../schemas/product/product.create.schema";
@@ -22,14 +18,14 @@ const router = Router();
 export const productRouter = () => {
   router.post(
     "",
-    [validate(productCreateSchema)],
+    [userAuthentication, userIsAdm, validate(productCreateSchema)],
     productCreateController
   ); // adicionar os middlewares apos rota de login
-  router.get("", productReadController);
-  router.get("/:product_id", productReadByIdController);
+  router.get("", userAuthentication, productReadController);
+  router.get("/:product_id", userAuthentication, productReadByIdController);
   router.patch(
     "/:product_id",
-    [validate(productUpdateSchema)],
+    [userAuthentication, userIsAdm, validate(productUpdateSchema)],
     productUpdateController
   );
 
