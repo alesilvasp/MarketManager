@@ -1,0 +1,1344 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Market Manager",
+    "description": "Simple API for managing small businesses",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/",
+      "description": "Local Server"
+    },
+    {
+      "url": "https://marketmanager.herokuapp.com/",
+      "description": "Production Server"
+    }
+  ],
+  "paths": {
+    "/admin": {
+      "post": {
+        "tags": ["Admin"],
+        "description": "Create user admin or not based on field 'isAdm'",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {},
+              "examples": {
+                "user": {
+                  "value": {
+                    "name": "John Doe",
+                    "email": "johndoe2@email.com",
+                    "password": "1234",
+                    "isAdm": true
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created User",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                },
+                "examples": {
+                  "user": {
+                    "value": {
+                      "name": "John Doe",
+                      "email": "johndoe2@email.com",
+                      "isAdmin": true,
+                      "logs": [],
+                      "id": "2c6759ac-78ad-4442-bff1-287aa1e152ad"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/admin/login": {
+      "post": {
+        "tags": ["Admin"],
+        "description": "Login for adm",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {},
+              "examples": {
+                "user": {
+                  "value": {
+                    "email": "johndoe2@email.com",
+                    "password": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User logged",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "accessToken": {
+                    "value": {
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6ImM4MDM3ZDA3LWIwMTEtNDRjMy04OWIwLTZlNmJhOTBhZDVhZSIsIm5hbWUiOiJBbGV4IiwiZW1haWwiOiJhbGVzaWx2YXNwQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImNyZWF0ZWRBdCI6IjIwMjItMDItMDhUMTc6MDY6NTMuMjU3WiIsInVwZGF0ZWRBdCI6IjIwMjItMDItMDhUMTc6MzM6NTguNTIyWiIsInJlY292ZXJ5VG9rZW4iOiIkMmEkMTAkS0Rtd2xQZ3pVLmIwT1lXVGRwanFmLmlIZXIycUhNTzFaMTR4bWQvdVVEMzVOTWllWTMvanEifSwiaWF0IjoxNjQ0MzQzMTY0LCJleHAiOjE2NDQzNDY3NjR9.cX5C3rSVUpHlOAOzVMpNXElRLN3GA2Pa8AWCkb6JhtM"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": ["Admin"],
+        "description": "Only Adm can create an operator user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {},
+              "examples": {
+                "user": {
+                  "value": {
+                    "name": "Another John",
+                    "email": "anotherjohn@email.com",
+                    "password": "1234",
+                    "isAdmin": false
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created User",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                },
+                "examples": {
+                  "user": {
+                    "value": {
+                      "name": "Another Doe",
+                      "email": "anotherjohn@email.com",
+                      "isAdmin": false,
+                      "logs": [],
+                      "id": "2c6759ac-78ad-4442-bff1-287aa1e152ad"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Admin"],
+        "description": "Only adm can read all users signed in database",
+        "responses": {
+          "200": {
+            "description": "A list of users",
+            "content": {
+              "application/json": {
+                "example": {
+                  "users": [
+                    {
+                      "name": "Another John",
+                      "email": "anotherjohn@email.com",
+                      "isAdm": false,
+                      "logs": [],
+                      "id": "11098f61-852a-4ba1-912e-a4d828787d68"
+                    },
+                    {
+                      "name": "user",
+                      "email": "user@email.com",
+                      "isAdm": false,
+                      "logs": [],
+                      "id": "18508h84-852a-4ba1-912e-d6g74476d63"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "patch": {
+        "tags": ["Users"],
+        "description": "Update name and email",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "email": "anotherjohndoe@email.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User response",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "user": {
+                    "value": {
+                      "email": "anotherjohndoe@email.com"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "description": "Only Adm can delete an user",
+        "responses": {
+          "200": {
+            "description": "No body returned for response"
+          },
+          "404": {
+            "description": "User not found!",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "statusCode": 404,
+                  "message": "User not found!"
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "style": "simple"
+        }
+      ]
+    },
+    "/login": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Login user on api",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {},
+              "examples": {
+                "user": {
+                  "value": {
+                    "email": "anotherjohndoe@email.com",
+                    "password": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User logged",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "accessToken": {
+                    "value": {
+                      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6ImM4MDM3ZDA3LWIwMTEtNDRjMy04OWIwLTZlNmJhOTBhZDVhZSIsIm5hbWUiOiJBbGV4IiwiZW1haWwiOiJhbGVzaWx2YXNwQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImNyZWF0ZWRBdCI6IjIwMjItMDItMDhUMTc6MDY6NTMuMjU3WiIsInVwZGF0ZWRBdCI6IjIwMjItMDItMDhUMTc6MzM6NTguNTIyWiIsInJlY292ZXJ5VG9rZW4iOiIkMmEkMTAkS0Rtd2xQZ3pVLmIwT1lXVGRwanFmLmlIZXIycUhNTzFaMTR4bWQvdVVEMzVOTWllWTMvanEifSwiaWF0IjoxNjQ0MzQzMTY0LCJleHAiOjE2NDQzNDY3NjR9.cX5C3rSVUpHlOAOzVMpNXElRLN3GA2Pa8AWCkb6JhtM"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/recover": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Send email with new token to recover password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {},
+              "examples": {
+                "user": {
+                  "value": {
+                    "email": "johndoe2@email.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message to confirm email sent",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Ok": {
+                    "value": {
+                      "message": "An e-mail was sent to you with a password recover token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/resetpassword": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Change password using new token recived by email",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "token": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "email": "johndoe2@email.com",
+                    "password": "123456",
+                    "token": "c7e2c3e235dbaeb16794a288969ea217e6c6ab4f"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message to confirm password change",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/statusResponses"
+                },
+                "examples": {
+                  "Ok": {
+                    "value": {
+                      "status": "Ok",
+                      "message": "Password changed!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/category": {
+      "post": {
+        "tags": ["Category"],
+        "description": "Only Admin is allowed to create a new category",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {},
+              "example": {
+                "category": "bebidas"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Category created",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "category": "bebidas",
+                  "products": [],
+                  "id": 1
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Category already exists",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "message": "Category already registered."
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Category"],
+        "description": "List all categories",
+        "responses": {
+          "200": {
+            "description": "Return all categories",
+            "content": {
+              "application/json": {
+                "example": {
+                  "categories": [
+                    {
+                      "id": 1,
+                      "category": "bebidas"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Category"],
+        "description": "Update category name",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {},
+              "example": {
+                "category": "bebidas alcoolicas"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Category updated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 1,
+                  "category": "bebidas alcoolicas"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stock/receivement": {
+      "post": {
+        "tags": ["Stock"],
+        "description": "Admin can enter a stock quantity of a product",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {},
+              "example": {
+                "product_id": 1,
+                "stock": 100,
+                "batch": "123456789",
+                "expires_in": "26/04/2022"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Stock added",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "stock": 100,
+                  "batch": "98765016084651",
+                  "expires_in": "2022-09-21T02:00:00.000Z",
+                  "product": {
+                    "id": 2,
+                    "name": "coca-cola 2l",
+                    "description": "zero",
+                    "price": 7,
+                    "unit": "unidade",
+                    "sale_product": null,
+                    "stock_product": [],
+                    "category": {
+                      "id": 2,
+                      "category": "Refrigerante"
+                    }
+                  },
+                  "id": 4
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Product not found."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stock/receivement/{productId}": {
+      "patch": {
+        "tags": ["Stock"],
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
+        "description": "Update stock of a product",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {},
+              "example": {
+                "stock": 100
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Stock Updated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "updated": {
+                    "id": 2,
+                    "stock": 100,
+                    "batch": "1234",
+                    "expires_in": "1986-02-21T02:00:00.000Z"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stock/for_sale": {
+      "post": {
+        "tags": ["Stock"],
+        "description": "Only Admin can move from stock to shelves",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {},
+              "example": {
+                "name": "coca-cola 2l",
+                "quantity": 50
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Stock moved",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "For each batch will be tranfered the current quantity:",
+                  "info": [
+                    {
+                      "qnt": 50,
+                      "batch": "98765016084651"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Product not found."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stock/for_sale/{productId}": {
+      "get": {
+        "tags": ["Stock"],
+        "description": "Quantity for sale of a product",
+        "responses": {
+          "200": {
+            "description": "For sale quantity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 1,
+                  "stock": 67,
+                  "product": {
+                    "id": 1,
+                    "name": "coca-cola 1l",
+                    "description": "zero",
+                    "price": 7,
+                    "unit": "unidade",
+                    "category": {
+                      "id": 1,
+                      "category": "Refrigerante"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ]
+      }
+    },
+    "/product": {
+      "post": {
+        "tags": ["Products"],
+        "description": "Only Admin is allowed to create a product",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/product"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "name": "coca cola1",
+                    "description": "refrigerante sabor cola",
+                    "price": 8.99,
+                    "unit": "unidade",
+                    "category_id": 1
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Product created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/product"
+                },
+                "examples": {
+                  "user": {
+                    "value": {
+                      "name": "coca cola1",
+                      "description": "refrigerante sabor cola",
+                      "price": 8.99,
+                      "unit": "unidade",
+                      "returned": [],
+                      "stock_product": [],
+                      "order_products": [],
+                      "category": {
+                        "id": 1,
+                        "category": "bebidas"
+                      },
+                      "id": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Products"],
+        "description": "Read all products",
+        "responses": {
+          "200": {
+            "description": "A list of products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/product"
+                  }
+                },
+                "example": {
+                  "products": [
+                    {
+                      "id": 2,
+                      "name": "suco maguary 1l",
+                      "description": "suco de uva",
+                      "price": 3.99,
+                      "unit": "unidade",
+                      "sale_product": null,
+                      "stock_product": [],
+                      "category": {
+                        "id": 1,
+                        "category": "bebidas"
+                      }
+                    },
+                    {
+                      "id": 1,
+                      "name": "coca cola1",
+                      "description": "refrigerante sabor cola",
+                      "price": 8.99,
+                      "unit": "unidade",
+                      "sale_product": null,
+                      "stock_product": [],
+                      "category": {
+                        "id": 1,
+                        "category": "bebidas"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/product/{productId}": {
+      "get": {
+        "tags": ["Products"],
+        "description": "Return product based on id",
+        "responses": {
+          "200": {
+            "description": "Product response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/product"
+                },
+                "example": {
+                  "id": 3,
+                  "name": "suco maguary 1l",
+                  "description": "suco de uva",
+                  "price": 3.99,
+                  "unit": "unidade",
+                  "sale_product": null,
+                  "stock_product": [],
+                  "category": {
+                    "id": 1,
+                    "category": "bebidas"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{}]
+      },
+      "patch": {
+        "tags": ["Products"],
+        "description": "Update one or more fields of one product",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {},
+              "example": {
+                "price": 12.99
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Product updated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 1,
+                  "name": "coca cola 250 ml",
+                  "description": "refrigerante sabor cola",
+                  "price": 12.99,
+                  "unit": "unidade",
+                  "sale_product": null,
+                  "stock_product": [],
+                  "category": {
+                    "id": 1,
+                    "category": "bebidas"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "ProductId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "style": "simple"
+        }
+      ]
+    },
+    "/cashier": {
+      "post": {
+        "tags": ["Cashier"],
+        "description": "Admin allowed to create a cashier and set balance value",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {},
+              "example": {
+                "balance": 100.0
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Cashier created",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "subtotal": 0,
+                  "balance": 100,
+                  "logs": [],
+                  "order_products": [],
+                  "order_details": [],
+                  "id": 1,
+                  "created_at": "2022-02-23T19:32:19.745Z"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Cashier"],
+        "description": "Only admin can read all cashiers",
+        "responses": {
+          "200": {
+            "description": "A list of cashier",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "cashiers": [
+                    {
+                      "id": 1,
+                      "subtotal": 0,
+                      "created_at": "2022-02-22T18:14:31.009Z",
+                      "balance": 0,
+                      "user": null
+                    },
+                    {
+                      "id": 2,
+                      "subtotal": 0,
+                      "created_at": "2022-02-22T18:14:52.228Z",
+                      "balance": 100,
+                      "user": null
+                    },
+                    {
+                      "id": 6,
+                      "subtotal": 0,
+                      "created_at": "2022-02-22T19:41:30.971Z",
+                      "balance": 0,
+                      "user": null
+                    },
+                    {
+                      "id": 7,
+                      "subtotal": 0,
+                      "created_at": "2022-02-22T19:43:25.627Z",
+                      "balance": 1000,
+                      "user": null
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cashier/{cashierId}": {
+      "get": {
+        "tags": ["Cashier"],
+        "description": "Read one cashier",
+        "responses": {
+          "200": {
+            "description": "Cashier details",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 1,
+                  "subtotal": 0,
+                  "created_at": "2022-02-22T18:14:31.009Z",
+                  "balance": 0,
+                  "order_products": [],
+                  "logs": [],
+                  "user": null
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "cashierId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "style": "simple"
+        }
+      ]
+    },
+    "/cashier/{cashierId}/product": {
+      "post": {
+        "description": "Create a order product",
+        "tags": ["Cashier"],
+        "parameters": [
+          {
+            "name": "cashierId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {},
+              "example": {
+                "product_id": 1,
+                "quantity": 2
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Order product created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 1,
+                  "quantity": 2,
+                  "subtotal": 17.98,
+                  "created_at": "2022-02-23T21:02:27.894Z",
+                  "cashier": {
+                    "id": 1,
+                    "subtotal": 17.98,
+                    "created_at": "2022-02-23T19:32:19.745Z",
+                    "balance": 1000,
+                    "user": null
+                  },
+                  "product": {
+                    "id": 1,
+                    "name": "coca-cola 2l",
+                    "description": "zero",
+                    "price": 8.99,
+                    "unit": "unidade",
+                    "sale_product": {
+                      "id": 1,
+                      "stock": 67
+                    },
+                    "stock_product": [
+                      {
+                        "id": 2,
+                        "stock": 100,
+                        "batch": "1235456789",
+                        "expires_in": "1986-02-21T02:00:00.000Z"
+                      }
+                    ],
+                    "category": {
+                      "id": 1,
+                      "category": "Refrigerante"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cashier/{cashierId}/order": {
+      "post": {
+        "description": "Create an order from a cashier",
+        "tags": ["Cashier"],
+        "parameters": [
+          {
+            "name": "cashierId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Order product created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "invoice number": 1,
+                  "total": 17.98,
+                  "issue date": "2022-02-24T19:51:50.060Z",
+                  "products": [
+                    {
+                      "product_name": "coca-cola 3l",
+                      "price": 8.99,
+                      "quantity": 2
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Cashier"],
+        "description": "Read an order by id",
+        "parameters": [
+          {
+            "name": "cashierId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order detail",
+            "content": {
+              "application/json": {
+                "example": {
+                  "orders": [
+                    {
+                      "id": 1,
+                      "total": 17.99,
+                      "created_at": "2022-02-24T19:51:50.060Z",
+                      "cashier": {
+                        "id": 1,
+                        "subtotal": 0,
+                        "created_at": "2022-02-23T19:32:19.745Z",
+                        "balance": 1017.99,
+                        "user": null
+                      },
+                      "order_products": []
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cashier/{cashierId}/order/{orderId}": {
+      "get": {
+        "description": "Read order from cahsier by id",
+        "parameters": [
+          {
+            "name": "cashierId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "style": "simple"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
+        "tags": ["Cashier"],
+        "responses": {
+          "200": {
+            "description": "Read order issued by cashier",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 1,
+                  "total": 17.98,
+                  "created_at": "2022-02-24T19:51:50.060Z",
+                  "order_products": [
+                    {
+                      "id": 1,
+                      "quantity": 1,
+                      "subtotal": 8.99,
+                      "created_at": "2022-02-23T19:32:23.571Z",
+                      "product": {
+                        "id": 1,
+                        "name": "coca-cola 2l",
+                        "description": "zero",
+                        "price": 8.99,
+                        "unit": "unidade",
+                        "sale_product": {
+                          "id": 1,
+                          "stock": 98
+                        },
+                        "stock_product": [
+                          {
+                            "id": 1,
+                            "stock": 0,
+                            "batch": "1234",
+                            "expires_in": "1986-02-21T02:00:00.000Z"
+                          },
+                          {
+                            "id": 3,
+                            "stock": 98,
+                            "batch": "1234",
+                            "expires_in": "1986-02-21T02:00:00.000Z"
+                          },
+                          {
+                            "id": 2,
+                            "stock": 100,
+                            "batch": "1234",
+                            "expires_in": "1986-02-21T02:00:00.000Z"
+                          }
+                        ],
+                        "category": {
+                          "id": 1,
+                          "category": "Refrigerante"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "user": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Generated wih UUID",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "isAdmin": {
+            "type": "boolean"
+          },
+          "logs": {
+            "type": "array"
+          }
+        }
+      },
+      "statusResponses": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "number"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "category_id": {
+            "type": "number"
+          },
+          "returned": {
+            "type": "array",
+            "readOnly": true
+          },
+          "stock_product": {
+            "type": "array",
+            "readOnly": true
+          },
+          "order_products": {
+            "type": "array",
+            "readOnly": true
+          },
+          "category": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "readOnly": true
+              },
+              "category": {
+                "type": "string",
+                "readOnly": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "JWT": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "JWT": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Admin",
+      "description": "Operations about admin"
+    },
+    {
+      "name": "Users",
+      "description": "Operations about user"
+    },
+    {
+      "name": "Category",
+      "description": "Admin allowed to create a new category"
+    },
+    {
+      "name": "Products",
+      "description": "Operations about product"
+    },
+    {
+      "name": "Stock",
+      "description": "Operations to control stock of products"
+    },
+    {
+      "name": "Cashier",
+      "description": "Operations about order products, buy and order details"
+    }
+  ]
+}

@@ -27,7 +27,7 @@ export const categoryUpdateService = async (category_id: number, data: any) => {
       throw new AppError(`Category name already exists`, 409);
     }
     if ((error as any).message.includes("ProductCategory")) {
-      throw new AppError(`Product id ${category_id} not found`, 404);
+      throw new AppError(`Category id ${category_id} not found`, 404);
     }
     throw new AppError((error as any).message, (error as any).statusCode);
   }
