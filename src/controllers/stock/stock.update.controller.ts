@@ -11,7 +11,7 @@ export const stockUpdateController = async (
     const { stock_id } = req.params;
     const { body } = req;
 
-    if (typeof body.stock !== "number") {
+    if (body.stock && typeof body.stock !== "number") {
       throw new AppError("Quantity must be a number.", 400);
     }
 
