@@ -25,7 +25,7 @@ export const orderProductCreateService = async (
       product: product,
       quantity: quantity,
       cashier: cashier,
-      subtotal: product.price * quantity,
+      subtotal: Number((product.price * quantity).toFixed(2)),
     });
 
     sale_product.stock -= quantity;
