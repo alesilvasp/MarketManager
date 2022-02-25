@@ -21,7 +21,13 @@ export const userAuthentication = (
       if (err) {
         throw new AppError("Invalid token", 401);
       }
+
+      const userid = decoded.id;
+
+      req.user = { uuid: userid }
+
     });
+
     req.token = token;
 
     return next();
