@@ -86,6 +86,10 @@ export const saleProductService = async (data: ISaleProductTransfer) => {
 
     const filtered = info.filter((n) => n.qnt > 0);
 
+    if (filtered.length === 0) {
+      throw new AppError("Product not in stock.", 404);
+    }
+
     return filtered;
   } catch (err) {
     throw new AppError((err as any).message, (err as any).statusCode);

@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.productUpdateController = exports.productReadByIdController = exports.productReadController = exports.productCreateController = void 0;
+const product_create_controller_1 = require("./product.create.controller");
+Object.defineProperty(exports, "productCreateController", { enumerable: true, get: function () { return product_create_controller_1.productCreateController; } });
+const product_read_controller_1 = require("./product.read.controller");
+Object.defineProperty(exports, "productReadController", { enumerable: true, get: function () { return product_read_controller_1.productReadController; } });
+const product_read_by_id_controller_1 = require("./product.read_by_id.controller");
+Object.defineProperty(exports, "productReadByIdController", { enumerable: true, get: function () { return product_read_by_id_controller_1.productReadByIdController; } });
+const product_update_controller_1 = require("./product.update.controller");
+Object.defineProperty(exports, "productUpdateController", { enumerable: true, get: function () { return product_update_controller_1.productUpdateController; } });
