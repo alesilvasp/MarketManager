@@ -4,6 +4,8 @@ import {
   cashierCreateController,
   cashierReadByIdController,
   cashierReadController,
+  cashierLoginController,
+  cashierLogoutController,
 } from "../../controllers/cashier";
 import {
   orderProductCreateController,
@@ -20,6 +22,7 @@ import {
   userAuthorization,
 } from "../../middlewares";
 import { validate } from "../../middlewares/globalMiddlewares/validation.middleware";
+import cashierLoginSchema from "../../schemas/cashier/user.login.schema";
 import { orderProductDeleteSchema } from "../../schemas/order_product/orderProduct.delete.schema";
 
 const router = Router();
@@ -56,6 +59,16 @@ export const cashierRouter = () => {
     userAuthentication,
     userAuthorization,
     orderDetailsreadByIdController
+  );
+  router.post(
+    "/:cashier_id/login",
+    [validate(cashierLoginSchema)],
+    cashierLoginController
+  );
+  router.post(
+    "/:cashier_id/logout",
+    userAuthentication,
+    cashierLogoutController
   );
   router.delete(
     "/:cashier_id/product/:product_id",

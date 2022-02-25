@@ -18,7 +18,6 @@ import userCreateSchema from "../../schemas/user/user.create.schema";
 import userRecoverSchema from "../../schemas/user/user.recover.schema"
 import userChangePasswordSchema from "../../schemas/user/user.changepassword.schema"
 
-
 const router = Router();
 
 export const usersRouter = () => {
@@ -52,7 +51,7 @@ export const usersRouter = () => {
     "/changepassword",
     [validate(userChangePasswordSchema)],
     userChangePasswordController
-  )
+  );
 
   return router;
 };
