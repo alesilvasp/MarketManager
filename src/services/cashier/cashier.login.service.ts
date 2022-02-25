@@ -4,11 +4,11 @@ import AppError from "../../errors/appError";
 import * as bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { config } from "../../config/jwt.config";
-import { IUserLogin } from "../../interfaces/user/user.login.interface";
+import { ICashierLogin } from "../../interfaces/cashier/cashier.login.interface";
 
-export const userLoginService = async (body: IUserLogin) => {
+export const cashierLoginService = async (body: ICashierLogin, cashier_id: number) => {
 
-    const { email, password, cashier_id } = body
+    const { email, password } = body
 
     const userRepository = getRepository(User)
     const cashierRepository = getRepository(Cashier)
@@ -17,6 +17,8 @@ export const userLoginService = async (body: IUserLogin) => {
     const user = await userRepository.findOne({ email: email })
     const cashier = await cashierRepository.findOne({ id: cashier_id })
     const cashiers = await cashierRepository.find()
+
+    console.log(user)
 
     if (!user) {
 
@@ -30,9 +32,11 @@ export const userLoginService = async (body: IUserLogin) => {
     
     const pwdMatch = await bcrypt.compare(password, user.password)
 
-    const userIsLogged = cashiers.filter(item => item.user === user)
+    const userIsLogged = cashiers.find(item => item.user === user)
 
-    if (!!userIsLogged) {
+    console.log(userIsLogged)
+
+    if (userIsLogged) {
 
         throw new AppError("This user is already logged in in another cashier", 401)
     }
@@ -65,7 +69,6 @@ export const userLoginService = async (body: IUserLogin) => {
         newLog.login = new Date()
         newLog.user = user
         newLog.cashier = cashier
-        await logsRepository.save(newLog)
         await logsRepository.save(newLog)
 
         cashier.user = user

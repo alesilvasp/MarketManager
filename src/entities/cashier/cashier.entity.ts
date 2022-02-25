@@ -21,7 +21,8 @@ export class Cashier {
 
     @OneToOne((type) => User, {
         eager: true,
-        nullable: true
+        nullable: true,
+        createForeignKeyConstraints: false
     })@JoinColumn()
     user!: User
 
